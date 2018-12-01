@@ -7,7 +7,7 @@ public class CameraMovement : MonoBehaviour
     public Transform player;
     public Transform mainCam;
 
-    private float followSmoothTime = 0.1f;
+    public float followSmoothTime = 0.2f;
 
     private Vector3 refVelocity;
     private Vector3 camToPlayerOffset = new Vector3(0f, 0f, -10f);

@@ -2,15 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombat : MonoBehaviour {
+public class PlayerCombat : MonoBehaviour
+{
+    public Transform playerBullet;
+    public Transform bulletsHolder;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public float reloadTime = 0.33f;
+    public float shootingThreshold = 0.1f;
+
+    private float reloadTimePassed = 0f;
+    private bool isReloading = false;
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+		if(isReloading)
+        {
+            Reload();
+        }
+        else
+        {
+            CheckShoot();
+        }
 	}
+
+    private void CheckShoot()
+    {
+        Vector2 input = new Vector2(Input.GetAxis(InputConsts.HorizontalAimingAxis), Input.GetAxis(InputConsts.VerticalAimingAxis));
+
+        if(input.sqrMagnitude > shootingThreshold)
+        {
+            Shoot(input.normalized);
+        }
+    }
+
+    private void Shoot(Vector2 direction)
+    {
+        isReloading = true;
+
+        PlayerBullet bullet = Instantiate(playerBullet, transform.position, Quaternion.identity, bulletsHolder).GetComponent<PlayerBullet>();
+        bullet.SetDirection(direction);
+    }
+
+    private void Reload()
+    {
+        reloadTimePassed += Time.deltaTime;
+
+        if(reloadTimePassed >= reloadTime)
+        {
+            isReloading = false;
+            reloadTimePassed = 0f;
+        }
+    }
 }
