@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalAxis), Input.GetAxis(InputConsts.VerticalAxis));
+        Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
 
         rb2D.velocity = movement * moveSpeed;
 	}

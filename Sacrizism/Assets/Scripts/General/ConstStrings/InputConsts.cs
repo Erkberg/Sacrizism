@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class InputConsts
 {
-    public const string HorizontalAxis = "Horizontal";
-    public const string VerticalAxis = "Vertical";
+    public const string HorizontalMovementAxis = "HorizontalMovement";
+    public const string VerticalMovementAxis = "VerticalMovement";
+    public const string HorizontalAimingAxis = "HorizontalAiming";
+    public const string VerticalAimingAxis = "VerticalAiming";
 }
