@@ -26,7 +26,10 @@ public class CameraMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, player.position + camToPlayerOffset, ref followRefVelocity, followSmoothTime);
+        if(player)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, player.position + camToPlayerOffset, ref followRefVelocity, followSmoothTime);
+        }
     }
 
     public void Shake(float intensityMultiplier = 1f, float durationMultiplier = 1f)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RunnerEnemy : Enemy
 {
-    private const float runningAwayProbability = 0.5f;
+    private const float runningAwayProbability = 0.33f;
 
     private bool runningAway = false;
 
@@ -52,11 +52,13 @@ public class RunnerEnemy : Enemy
         if(level == 1)
         {
             moveSpeed *= 1.5f;
+            character.SetMaxHP(5);
         }
 
         if(level == 2)
         {
             moveSpeed *= 2f;
+            character.SetMaxHP(8);
         }
     }
 

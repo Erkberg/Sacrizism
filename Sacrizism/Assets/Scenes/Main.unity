@@ -605,6 +605,12 @@ MonoBehaviour:
   enemiesHolder: {fileID: 884971467}
   enemyGroupPrefab: {fileID: 4999961460645454, guid: d38cbf62657bcbf4b8e63f34c687c08a,
     type: 2}
+  runnerEnemyPrefab: {fileID: 4012200944080010, guid: 7a994e3b2f9db954fa52fc35a9c303e4,
+    type: 2}
+  shooterEnemyPrefab: {fileID: 4012200944080010, guid: 7a994e3b2f9db954fa52fc35a9c303e4,
+    type: 2}
+  healerEnemyPrefab: {fileID: 4012200944080010, guid: 7a994e3b2f9db954fa52fc35a9c303e4,
+    type: 2}
 --- !u!1 &778448235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,10 +1223,6 @@ Prefab:
     - target: {fileID: 4012200944080010, guid: 7a994e3b2f9db954fa52fc35a9c303e4, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1857621285531852, guid: 7a994e3b2f9db954fa52fc35a9c303e4, type: 2}
-      propertyPath: m_Name
-      value: EnemyRunner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a994e3b2f9db954fa52fc35a9c303e4, type: 2}

@@ -5,10 +5,14 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     private const int amountOfEnemyGroups = 32;
-    private const float minGroupDistance = 4f;
+    private const float minGroupDistance = 6f;
 
     public Transform enemiesHolder;
     public Transform enemyGroupPrefab;
+
+    public Transform runnerEnemyPrefab;
+    public Transform shooterEnemyPrefab;
+    public Transform healerEnemyPrefab;
 
     private List<Transform> enemyGroups;
 
@@ -44,7 +48,7 @@ public class EnemyManager : MonoBehaviour
         bool positionIsOkay = true;
 
         // keep area around player spawn clean
-        if(Vector3.Distance(Vector3.zero, position) < 16f)
+        if(Vector3.Distance(Vector3.zero, position) < 12f)
         {
             positionIsOkay = false;
         }
@@ -61,5 +65,25 @@ public class EnemyManager : MonoBehaviour
         }
 
         return positionIsOkay;
+    }
+
+    public Transform GetEnemyPrefabByType(EnemyType enemyType)
+    {
+        if(enemyType == EnemyType.Runner)
+        {
+            return runnerEnemyPrefab;
+        }
+
+        if (enemyType == EnemyType.Shooter)
+        {
+            return shooterEnemyPrefab;
+        }
+
+        if (enemyType == EnemyType.Healer)
+        {
+            return healerEnemyPrefab;
+        }
+
+        return null;
     }
 }

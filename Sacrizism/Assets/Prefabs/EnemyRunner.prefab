@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 58777354707126566}
   - component: {fileID: 50198225291689416}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: EnemyRunner
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
