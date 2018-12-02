@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public WorldManager worldManager;
     public EnemyManager enemyManager;
+    public ParticlesManager particlesManager;
     public CameraMovement cameraMovement;
     public Transform player;
 
@@ -56,5 +57,10 @@ public class GameManager : MonoBehaviour
     public void OnDeath()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public float GetSmallRandomizer()
+    {
+        return Random.Range(0.9f, 1.1f);
     }
 }

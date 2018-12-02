@@ -101,5 +101,7 @@ public class HealerEnemy : Enemy
             reloadTime *= 0.8f;
             healAmount = 3;
         }
+
+        reloadTime *= GameManager.instance.GetSmallRandomizer();
     }
 }
