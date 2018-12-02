@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private const float destroyDelay = 8f;
-
     public float moveSpeed = 8f;
     public int damage = 1;
-
-    protected void Start()
-    {
-        Destroy(gameObject, destroyDelay);
-    }
 
     public void SetDirection(Vector2 direction)
     {
@@ -22,5 +15,13 @@ public class Bullet : MonoBehaviour
     protected void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag(Tags.BulletAreaTag))
+        {
+            Destroy();
+        }
     }
 }
