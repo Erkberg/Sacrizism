@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public CameraMovement cameraMovement;
+    public Transform player;
 
     private const float sacriBarMax = 100f;
     private const float sacriBarDecline = 2f;

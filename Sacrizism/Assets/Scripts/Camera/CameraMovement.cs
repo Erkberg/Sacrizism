@@ -6,8 +6,7 @@ public class CameraMovement : MonoBehaviour
 {
     private const float baseIntensity = 0.1f;
     private const float baseDuration = 0.1f;
-
-    public Transform player;
+    
     public Transform mainCam;
 
     private float followSmoothTime = 0.2f;
@@ -17,6 +16,13 @@ public class CameraMovement : MonoBehaviour
     private Vector3 shakeRefVelocity;
 
     private Vector3 camToPlayerOffset = new Vector3(0f, 0f, -10f);
+
+    private Transform player;
+
+    private void Awake()
+    {
+        player = GameManager.instance.player;
+    }
 
     private void FixedUpdate()
     {

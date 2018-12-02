@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4012200944080010}
-  - component: {fileID: 114879911431996048}
+  - component: {fileID: 114774765008840130}
   - component: {fileID: 114974541344768328}
   - component: {fileID: 58777354707126566}
   - component: {fileID: 50198225291689416}
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114879911431996048
+--- !u!114 &114774765008840130
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,9 +263,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1857621285531852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7bb65e88836be747b3703eaffb3e18b, type: 3}
+  m_Script: {fileID: 11500000, guid: ed443052794f15247b7b368f3bf04b10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
+  enemyGroup: {fileID: 0}
+  level: 0
+  moveSpeed: 2
+  rb2D: {fileID: 50198225291689416}
+  spriteRenderer: {fileID: 212034492824932488}
+  character: {fileID: 114974541344768328}
 --- !u!114 &114974541344768328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,6 +286,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBar: {fileID: 114096993137987696}
   maxHP: 3
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114774765008840130}
+        m_MethodName: SetAngered
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!212 &212034492824932488
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -312,10 +335,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1820146457
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5d2a75118bba1144f90936ab88a83295, type: 3}
-  m_Color: {r: 1, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
