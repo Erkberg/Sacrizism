@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4159010078836482}
   - component: {fileID: 212021487591303784}
-  - component: {fileID: 95857496049242096}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -250,24 +249,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 24, y: 16}
   m_EdgeRadius: 0
---- !u!95 &95857496049242096
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1582716562728140}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!95 &95947486428784368
 Animator:
   serializedVersion: 3
@@ -428,6 +409,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBar: {fileID: 114485477267953988}
   maxHP: 3
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!212 &212021487591303784
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -31,6 +31,20 @@ public class RunnerEnemy : Enemy
         {
             rb2D.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
         }
+
+        CheckFacing();
+    }
+
+    private void CheckFacing()
+    {
+        if (rb2D.velocity.x < 0f)
+        {
+            changeFacing.SetFacing(Facing.Left);
+        }
+        else if (rb2D.velocity.x > 0f)
+        {
+            changeFacing.SetFacing(Facing.Right);
+        }
     }
 
     protected override void OnSetLevel()
@@ -44,5 +58,31 @@ public class RunnerEnemy : Enemy
         {
             moveSpeed *= 2f;
         }
+    }
+
+    protected override void OnSetActive(bool active)
+    {
+        if(isAngered && active)
+        {
+            SetMoving(true);
+        }
+        else
+        {
+            SetMoving(false);
+        }
+    }
+
+    protected override void OnSetAngered()
+    {
+        if(isActive)
+        {
+            SetMoving(true);
+        }
+    }
+
+    private void SetMoving(bool moving)
+    {
+        animator.SetBool(AnimationBools.MovingBool, moving);
+        shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
     }
 }
