@@ -64,6 +64,7 @@ public class Character : MonoBehaviour
         }
         else
         {
+            GameManager.instance.OnEnemyKilled(GetComponent<Enemy>().level);
             GameManager.instance.particlesManager.SpawnDeathParticle(transform);
             Destroy(gameObject);
         }
