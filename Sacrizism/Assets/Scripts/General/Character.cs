@@ -64,6 +64,18 @@ public class Character : MonoBehaviour
         }
     }
 
+    public bool IsInjured()
+    {
+        if(currentHP < maxHP && currentHP > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(Tags.LavaTag))

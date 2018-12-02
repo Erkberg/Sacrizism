@@ -46,7 +46,7 @@ public class EnemyGroup : MonoBehaviour
 
         for(int i = 0; i < currentSize; i++)
         {
-            Enemy enemy = Instantiate(GameManager.instance.enemyManager.GetEnemyPrefabByType(GetRandomEnemyType()),
+            Enemy enemy = Instantiate(GameManager.instance.enemyManager.GetEnemyPrefabByType(GetRandomEnemyTypeWeighted()),
                                                    GetRandomGroupPosition(), Quaternion.identity, transform).GetComponent<Enemy>();
             enemy.SetLevel(Random.Range(0, maxLevel + 1));
             enemy.enemyGroup = this;
@@ -70,6 +70,19 @@ public class EnemyGroup : MonoBehaviour
         }        
     }
 
+    public Transform FindInjuredEnemy(Enemy requester)
+    {
+        foreach(Enemy enemy in enemies)
+        {
+            if(enemy != null && enemy.character.IsInjured() && enemy != requester)
+            {
+                return enemy.transform;
+            }
+        }
+
+        return null;
+    }
+
     private Vector3 GetRandomGroupPosition()
     {
         return transform.position + new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius), 0f);
@@ -91,6 +104,26 @@ public class EnemyGroup : MonoBehaviour
     {
         var values = System.Enum.GetValues(typeof(EnemyType));
         return (EnemyType)values.GetValue(Random.Range(0, values.Length - 1));
+    }
+
+    public EnemyType GetRandomEnemyTypeWeighted()
+    {
+        var values = System.Enum.GetValues(typeof(EnemyType));
+
+        float random = Random.Range(0f, 1f);
+
+        if(random < 0.45f)
+        {
+            return (EnemyType)values.GetValue(0);
+        }
+        else if (random < 0.85f)
+        {
+            return (EnemyType)values.GetValue(1);
+        }
+        else
+        {
+            return (EnemyType)values.GetValue(2);
+        }
     }
 }
 
