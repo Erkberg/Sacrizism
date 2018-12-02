@@ -6,15 +6,50 @@ public class Bullet : MonoBehaviour
 {
     public float moveSpeed = 8f;
     public int damage = 1;
+    public int pierce = 0;
 
     public void SetDirection(Vector2 direction)
     {
         GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
     }
 
+    public void AddDamage(int bonusDamage)
+    {
+        damage += bonusDamage;
+    }
+
+    public void AddMoveSpeed(float bonusMoveSpeed)
+    {
+        moveSpeed += bonusMoveSpeed;
+    }
+
+    public void AddSize(float bonusSize)
+    {
+        float size = transform.localScale.x + bonusSize;
+        transform.localScale = new Vector3(size, size, 1f);
+    }
+
+    public void AddPierce(int bonusPierce)
+    {
+        pierce += bonusPierce;
+    }
+
     protected void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    protected bool DoesPierce()
+    {
+        if(pierce > 0)
+        {
+            pierce--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -286,6 +286,7 @@ MonoBehaviour:
   rb2D: {fileID: 50582795718664940}
   animator: {fileID: 95947486428784368}
   shadowAnimator: {fileID: 95130639356933022}
+  playerPowerUps: {fileID: 114357334069887696}
   moveSpeed: 4
 --- !u!114 &114357334069887696
 MonoBehaviour:
@@ -350,6 +351,7 @@ MonoBehaviour:
   reloadTime: 0.33
   shootingThreshold: 0.1
   changeFacing: {fileID: 114094883861065172}
+  playerPowerUps: {fileID: 114357334069887696}
 --- !u!114 &114485477267953988
 MonoBehaviour:
   m_ObjectHideFlags: 1

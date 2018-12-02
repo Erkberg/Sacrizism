@@ -7,14 +7,21 @@ public class PlayerBullet : Bullet
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag(Tags.ObstacleTag))
-        {
-            Destroy();
+        {      
+            if(!DoesPierce())
+            {
+                Destroy();
+            }
         }
 
         if (collision.CompareTag(Tags.EnemyTag))
         {
             collision.GetComponent<Character>().TakeDamage(damage);
-            Destroy();
+
+            if (!DoesPierce())
+            {
+                Destroy();
+            }
         }
     }
 }
