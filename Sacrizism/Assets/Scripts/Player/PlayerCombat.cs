@@ -57,6 +57,8 @@ public class PlayerCombat : MonoBehaviour
     {
         isReloading = true;
 
+        GameManager.instance.cameraMovement.Shake();
+
         PlayerBullet bullet = Instantiate(playerBullet, transform.position, Quaternion.identity, bulletsHolder).GetComponent<PlayerBullet>();
         bullet.SetDirection(direction);
     }

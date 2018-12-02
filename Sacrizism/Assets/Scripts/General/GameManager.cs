@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public UIManager uiManager;
+    public CameraMovement cameraMovement;
 
     private const float sacriBarMax = 100f;
     private const float sacriBarDecline = 2f;
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
             Init();
         }
     }
