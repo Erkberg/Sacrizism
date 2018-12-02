@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBullet : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
     private const float destroyDelay = 8f;
 
     public float moveSpeed = 8f;
+    public int damage = 1;
 
-    private void Start()
+    protected void Start()
     {
         Destroy(gameObject, destroyDelay);
     }
@@ -18,20 +19,7 @@ public class PlayerBullet : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag(Tags.ObstacleTag))
-        {
-            Destroy();
-        }
-
-        if (collision.CompareTag(Tags.EnemyTag))
-        {
-            Destroy();
-        }
-    }
-
-    private void Destroy()
+    protected void Destroy()
     {
         Destroy(gameObject);
     }

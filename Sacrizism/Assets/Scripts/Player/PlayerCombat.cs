@@ -10,6 +10,8 @@ public class PlayerCombat : MonoBehaviour
     public float reloadTime = 0.33f;
     public float shootingThreshold = 0.1f;
 
+    public ChangeFacing changeFacing;
+
     private float reloadTimePassed = 0f;
     private bool isReloading = false;
 	
@@ -24,7 +26,22 @@ public class PlayerCombat : MonoBehaviour
         {
             CheckShoot();
         }
+
+        CheckFacing();
 	}
+
+    private void CheckFacing()
+    {
+        if(Input.GetAxis(InputConsts.HorizontalAimingAxis) < shootingThreshold)
+        {
+            changeFacing.SetFacing(Facing.Left);
+        }
+
+        if (Input.GetAxis(InputConsts.HorizontalAimingAxis) > shootingThreshold)
+        {
+            changeFacing.SetFacing(Facing.Right);
+        }
+    }
 
     private void CheckShoot()
     {
