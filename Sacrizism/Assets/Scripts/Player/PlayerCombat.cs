@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void CheckFacing()
     {
-        if(Input.GetAxis(InputConsts.HorizontalAimingAxis) < shootingThreshold)
+        if(Input.GetAxis(InputConsts.HorizontalAimingAxis) < -shootingThreshold)
         {
             changeFacing.SetFacing(Facing.Left);
         }
@@ -56,6 +56,8 @@ public class PlayerCombat : MonoBehaviour
     private void Shoot(Vector2 direction)
     {
         isReloading = true;
+
+        GameManager.instance.cameraMovement.Shake();
 
         PlayerBullet bullet = Instantiate(playerBullet, transform.position, Quaternion.identity, bulletsHolder).GetComponent<PlayerBullet>();
         bullet.SetDirection(direction);

@@ -11,6 +11,7 @@ public class PlayerCollision : MonoBehaviour
         if(collision.collider.CompareTag(Tags.EnemyTag))
         {
             character.TakeDamage(1);
+            GameManager.instance.cameraMovement.Shake(4f, 4f);
             transform.position += (transform.position - collision.collider.transform.position).normalized;
         }
     }

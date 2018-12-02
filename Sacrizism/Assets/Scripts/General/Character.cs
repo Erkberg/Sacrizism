@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
@@ -9,13 +10,25 @@ public class Character : MonoBehaviour
     public int maxHP = 3;
     private int currentHP;
 
+    public UnityEvent onTakeDamage;
+
     private void Awake()
     {
         currentHP = maxHP;
     }
 
+    public void SetMaxHP(int amount)
+    {
+        maxHP = amount;
+        currentHP = maxHP;
+
+        hpBar.SetWidthPercentage((float)currentHP / maxHP);
+    }
+
     public void TakeDamage(int amount)
     {
+        onTakeDamage.Invoke();
+
         currentHP -= amount;        
 
         if(currentHP <= 0)
