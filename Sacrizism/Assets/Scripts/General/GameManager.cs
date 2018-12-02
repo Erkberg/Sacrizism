@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public UIManager uiManager;
+
+    private const float sacriBarMax = 100f;
+    private const float sacriBarDecline = 2f;
+    private float currentSacriBarAmount;
+
     private void Awake()
     {
         if(instance)
@@ -17,7 +23,29 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            Init();
         }
+    }
+
+    private void Init()
+    {
+        currentSacriBarAmount = sacriBarMax / 2f;
+    }
+
+    private void Update()
+    {
+        currentSacriBarAmount -= sacriBarDecline * Time.deltaTime;
+        uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+
+        if(currentSacriBarAmount <= 0f)
+        {
+            OnSacriBarEmpty();
+        }
+    }
+
+    private void OnSacriBarEmpty()
+    {
+        // spawn boss
     }
 
     public void OnDeath()

@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void CheckFacing()
     {
-        if(Input.GetAxis(InputConsts.HorizontalAimingAxis) < shootingThreshold)
+        if(Input.GetAxis(InputConsts.HorizontalAimingAxis) < -shootingThreshold)
         {
             changeFacing.SetFacing(Facing.Left);
         }
