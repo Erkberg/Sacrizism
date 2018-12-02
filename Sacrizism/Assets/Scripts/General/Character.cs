@@ -10,6 +10,8 @@ public class Character : MonoBehaviour
     public int maxHP = 3;
     private int currentHP;
 
+    public Transform healOrigin;
+
     public UnityEvent onTakeDamage;
 
     private void Awake()
@@ -48,6 +50,8 @@ public class Character : MonoBehaviour
             currentHP = maxHP;
         }
 
+        GameManager.instance.particlesManager.SpawnHealParticle(healOrigin);
+
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 
@@ -60,6 +64,8 @@ public class Character : MonoBehaviour
         }
         else
         {
+            GameManager.instance.OnEnemyKilled(GetComponent<Enemy>().level);
+            GameManager.instance.particlesManager.SpawnDeathParticle(transform);
             Destroy(gameObject);
         }
     }

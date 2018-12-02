@@ -69,6 +69,8 @@ public class ShooterEnemy : Enemy
         {
             character.SetMaxHP(10);
         }
+
+        reloadTime *= GameManager.instance.GetSmallRandomizer();
     }
 
     private void Shoot()

@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public WorldManager worldManager;
     public EnemyManager enemyManager;
+    public ParticlesManager particlesManager;
     public CameraMovement cameraMovement;
     public Transform player;
 
     private const float sacriBarMax = 100f;
-    private const float sacriBarDecline = 2f;
+    private const float sacriBarDecline = 1f;
     private float currentSacriBarAmount;
 
     private void Awake()
@@ -56,5 +57,16 @@ public class GameManager : MonoBehaviour
     public void OnDeath()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnEnemyKilled(int level)
+    {
+        currentSacriBarAmount += level + 1;
+        uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+    }
+
+    public float GetSmallRandomizer()
+    {
+        return Random.Range(0.9f, 1.1f);
     }
 }
