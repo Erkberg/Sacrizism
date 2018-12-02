@@ -55,7 +55,7 @@ public class Character : MonoBehaviour
     {
         if(gameObject.CompareTag(Tags.PlayerTag))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             GameManager.instance.OnDeath();
         }
         else

@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     protected bool isAngered = false;
     protected bool isActive = false;
+    protected bool isMoving = false;
 
     private void Awake()
     {
@@ -48,6 +49,8 @@ public class Enemy : MonoBehaviour
         if (isActive && isAngered)
         {
             OnFixedUpdate();
+
+            CheckMovingAnimation();
         }
     }
 
@@ -105,6 +108,36 @@ public class Enemy : MonoBehaviour
     }
 
     protected virtual void OnSetActive(bool active) { }
+
+    protected void CheckMovingAnimation()
+    {
+        if(rb2D.velocity.sqrMagnitude < 1f)
+        {
+            rb2D.velocity = Vector2.zero;
+        }
+
+        if (rb2D.velocity == Vector2.zero)
+        {
+            SetMoving(false);
+        }
+        else
+        {
+            SetMoving(true);
+        }
+    }
+
+    protected void SetMoving(bool moving)
+    {
+        if (moving == isMoving)
+        {
+            return;
+        }
+
+        isMoving = moving;
+
+        animator.SetBool(AnimationBools.MovingBool, moving);
+        shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
+    }
 }
 
 public enum EnemyType

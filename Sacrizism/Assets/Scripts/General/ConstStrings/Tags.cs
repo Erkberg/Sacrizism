@@ -10,4 +10,5 @@ public static class Tags
     public const string EnemyBulletTag = "EnemyBullet";
     public const string ObstacleTag = "Obstacle";
     public const string BulletAreaTag = "BulletArea";
+    public const string BulletsHolderTag = "BulletsHolder";
 }
