@@ -105,6 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4437707118203798}
   - component: {fileID: 114920218545162762}
+  - component: {fileID: 114357334069887696}
   - component: {fileID: 114191679684250734}
   - component: {fileID: 114476045588906226}
   - component: {fileID: 114615693961240976}
@@ -286,6 +287,25 @@ MonoBehaviour:
   animator: {fileID: 95947486428784368}
   shadowAnimator: {fileID: 95130639356933022}
   moveSpeed: 4
+--- !u!114 &114357334069887696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1658848073291852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 031e8302c24ff4e4282f8680ce47d522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonusHealth: 0
+  bonusDamage: 0
+  bonusMoveSpeed: 0
+  bonusReloadTime: 0
+  bonusBulletSize: 0
+  bonusBulletSpeed: 0
+  bonusMultishot: 0
+  bonusPierce: 0
 --- !u!114 &114444820794969398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -354,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 114920218545162762}
+  playerPowerUps: {fileID: 114357334069887696}
 --- !u!114 &114772912368180060
 MonoBehaviour:
   m_ObjectHideFlags: 1

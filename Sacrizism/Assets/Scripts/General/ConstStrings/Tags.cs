@@ -12,4 +12,5 @@ public static class Tags
     public const string BulletAreaTag = "BulletArea";
     public const string BulletsHolderTag = "BulletsHolder";
     public const string LavaTag = "Lava";
+    public const string PowerUpTag = "PowerUp";
 }

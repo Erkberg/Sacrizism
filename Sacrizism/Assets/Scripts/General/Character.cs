@@ -64,6 +64,11 @@ public class Character : MonoBehaviour
         }
         else
         {
+            if(GetComponent<Enemy>().hasPowerUp)
+            {
+                GameManager.instance.SpawnPowerUp(transform.position);
+            }
+
             GameManager.instance.OnEnemyKilled(GetComponent<Enemy>().level);
             GameManager.instance.particlesManager.SpawnDeathParticle(transform);
             Destroy(gameObject);

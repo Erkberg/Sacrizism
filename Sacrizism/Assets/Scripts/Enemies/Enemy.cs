@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     protected Transform player;
 
+    public bool hasPowerUp = false;
     protected bool isAngered = false;
     protected bool isActive = false;
     protected bool isMoving = false;

@@ -52,6 +52,8 @@ public class EnemyGroup : MonoBehaviour
             enemy.enemyGroup = this;
             enemies.Add(enemy);
         }
+
+        enemies[Random.Range(0, enemies.Count)].hasPowerUp = true;
     }
 
     public void SetAngered()

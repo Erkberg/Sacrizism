@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     public Character character;
+    public PlayerPowerUps playerPowerUps;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -13,6 +14,15 @@ public class PlayerCollision : MonoBehaviour
             character.TakeDamage(1);
             ShakeScreenOnDamage();
             transform.position += (transform.position - collision.collider.transform.position).normalized;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(Tags.PowerUpTag))
+        {
+            playerPowerUps.OnPowerUpPickedUp();
+            Destroy(collision.gameObject);
         }
     }
 

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public CameraMovement cameraMovement;
     public Transform player;
 
+    public Transform powerUpPrefab;
+
     private const float sacriBarMax = 100f;
     private const float sacriBarDecline = 1f;
     private float currentSacriBarAmount;
@@ -68,5 +70,10 @@ public class GameManager : MonoBehaviour
     public float GetSmallRandomizer()
     {
         return Random.Range(0.9f, 1.1f);
+    }
+
+    public void SpawnPowerUp(Vector3 position)
+    {
+        Instantiate(powerUpPrefab, position, Quaternion.identity);
     }
 }
