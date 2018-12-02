@@ -7,7 +7,7 @@ using UnityEditor;
 
 public class WorldManager : MonoBehaviour
 {
-    private const int WorldSize = 2;
+    private const int WorldSize = 3;
     private const float TileSize = 10.24f;
 
     public Transform groundHolder;
@@ -35,5 +35,11 @@ public class WorldManager : MonoBehaviour
 #endif
             }
         }
+    }
+
+    public Vector3 GetRandomWorldPosition()
+    {
+        float radius = WorldSize * TileSize;
+        return new Vector3(Random.Range(-radius, radius), Random.Range(-radius, radius), 0f);
     }
 }

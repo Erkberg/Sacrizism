@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public UIManager uiManager;
+    public WorldManager worldManager;
+    public EnemyManager enemyManager;
     public CameraMovement cameraMovement;
     public Transform player;
 
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         currentSacriBarAmount = sacriBarMax / 2f;
+        worldManager.CreateGround();
+        enemyManager.CreateEnemies();
     }
 
     private void Update()
