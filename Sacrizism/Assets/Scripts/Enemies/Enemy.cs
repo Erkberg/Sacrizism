@@ -14,11 +14,14 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D rb2D;
     public SpriteRenderer spriteRenderer;
     public Character character;
+    public ChangeFacing changeFacing;
+    public Animator animator;
+    public Animator shadowAnimator;
 
     protected Transform player;
 
-    private bool isAngered = false;
-    private bool isActive = false;
+    protected bool isAngered = false;
+    protected bool isActive = false;
 
     private void Awake()
     {
@@ -55,6 +58,7 @@ public class Enemy : MonoBehaviour
         if(!isAngered)
         {
             isAngered = true;
+            OnSetAngered();
 
             if (enemyGroup)
             {
@@ -62,6 +66,8 @@ public class Enemy : MonoBehaviour
             }
         }        
     }
+
+    protected virtual void OnSetAngered() { }
 
     public void SetLevel(int level)
     {
@@ -79,7 +85,7 @@ public class Enemy : MonoBehaviour
     {
         if(collision.CompareTag(Tags.BulletAreaTag))
         {
-            isActive = true;
+            SetActive(true);
         }
     }
 
@@ -87,9 +93,18 @@ public class Enemy : MonoBehaviour
     {
         if (collision.CompareTag(Tags.BulletAreaTag))
         {
-            isActive = false;
+            SetActive(false);
         }
     }
+
+    public void SetActive(bool active)
+    {
+        isActive = active;
+
+        OnSetActive(active);
+    }
+
+    protected virtual void OnSetActive(bool active) { }
 }
 
 public enum EnemyType

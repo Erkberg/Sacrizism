@@ -5,13 +5,20 @@ using UnityEngine;
 public class EnemyGroup : MonoBehaviour
 {
     public EnemyGroupType groupType;
+    public EnemyGroupSize groupSize;
     public List<Enemy> enemies;
 
     private bool isAngered = false;
 
-    public void CreateGroup(EnemyGroupType groupType)
+    public void CreateRandomGroup()
+    {
+        CreateGroup(GetRandomGroupType(), GetRandomGroupSize());
+    }
+
+    public void CreateGroup(EnemyGroupType groupType, EnemyGroupSize groupSize)
     {
         this.groupType = groupType;
+        this.groupSize = groupSize;
 
 
     }
@@ -31,6 +38,18 @@ public class EnemyGroup : MonoBehaviour
             }
         }        
     }
+
+    public EnemyGroupType GetRandomGroupType()
+    {
+        var values = System.Enum.GetValues(typeof(EnemyGroupType));
+        return (EnemyGroupType) values.GetValue(Random.Range(0, values.Length));
+    }
+
+    public EnemyGroupSize GetRandomGroupSize()
+    {
+        var values = System.Enum.GetValues(typeof(EnemyGroupSize));
+        return (EnemyGroupSize)values.GetValue(Random.Range(0, values.Length));
+    }
 }
 
 public enum EnemyGroupType
@@ -38,4 +57,11 @@ public enum EnemyGroupType
     Weak,
     Average,
     Strong
+}
+
+public enum EnemyGroupSize
+{
+    Small,
+    Average,
+    Big
 }
