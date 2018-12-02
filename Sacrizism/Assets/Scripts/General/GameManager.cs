@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         currentSacriBarAmount = sacriBarMax / 2f;
-        worldManager.CreateGround();
+        worldManager.CreateWorld();
         enemyManager.CreateEnemies();
     }
 

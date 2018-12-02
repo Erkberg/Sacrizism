@@ -11,4 +11,5 @@ public static class Tags
     public const string ObstacleTag = "Obstacle";
     public const string BulletAreaTag = "BulletArea";
     public const string BulletsHolderTag = "BulletsHolder";
+    public const string LavaTag = "Lava";
 }

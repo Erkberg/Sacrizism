@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - BulletArea
   - BulletsHolder
+  - Lava
   layers:
   - Default
   - TransparentFX

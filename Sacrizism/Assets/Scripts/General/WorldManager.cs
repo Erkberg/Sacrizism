@@ -11,12 +11,29 @@ public class WorldManager : MonoBehaviour
     private const float TileSize = 10.24f;
 
     public Transform groundHolder;
-
     public Transform groundTilePrefab;
+    public Transform lavaHolder;
+    public Transform lavaPrefab;
 
     public void CreateWorld()
     {
+        CreateLava();
         CreateGround();
+    }
+
+    public void CreateLava()
+    {
+        for (int i = -WorldSize - 1; i <= WorldSize + 1; i++)
+        {
+            Instantiate(lavaPrefab, new Vector3(i * TileSize, (-WorldSize - 1) * TileSize, 0f), Quaternion.identity, lavaHolder);
+            Instantiate(lavaPrefab, new Vector3(i * TileSize, (WorldSize + 1) * TileSize, 0f), Quaternion.identity, lavaHolder);
+        }
+
+        for (int i = -WorldSize; i <= WorldSize; i++)
+        {
+            Instantiate(lavaPrefab, new Vector3((-WorldSize - 1) * TileSize, i * TileSize, 0f), Quaternion.identity, lavaHolder);
+            Instantiate(lavaPrefab, new Vector3((WorldSize + 1) * TileSize, i * TileSize, 0f), Quaternion.identity, lavaHolder);
+        }
     }
 
     public void CreateGround()

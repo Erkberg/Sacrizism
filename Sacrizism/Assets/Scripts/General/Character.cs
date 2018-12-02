@@ -51,7 +51,7 @@ public class Character : MonoBehaviour
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 
-    protected void Die()
+    public void Die()
     {
         if(gameObject.CompareTag(Tags.PlayerTag))
         {
@@ -61,6 +61,14 @@ public class Character : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(Tags.LavaTag))
+        {
+            Die();
         }
     }
 }

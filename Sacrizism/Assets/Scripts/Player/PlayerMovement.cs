@@ -5,11 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb2D;
+    public Animator animator;
+    public Animator shadowAnimator;
 
     public float moveSpeed = 1f;
+    private bool isMoving = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -19,5 +22,37 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
 
         rb2D.velocity = movement * moveSpeed;
+
+        CheckMovingAnimation();
 	}
+
+    private void CheckMovingAnimation()
+    {
+        if (rb2D.velocity.sqrMagnitude < 1f)
+        {
+            rb2D.velocity = Vector2.zero;
+        }
+
+        if (rb2D.velocity == Vector2.zero)
+        {
+            SetMoving(false);
+        }
+        else
+        {
+            SetMoving(true);
+        }
+    }
+
+    private void SetMoving(bool moving)
+    {
+        if (moving == isMoving)
+        {
+            return;
+        }
+
+        isMoving = moving;
+
+        animator.SetBool(AnimationBools.MovingBool, moving);
+        shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
+    }
 }
