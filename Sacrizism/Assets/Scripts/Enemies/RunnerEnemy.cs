@@ -61,30 +61,4 @@ public class RunnerEnemy : Enemy
             character.SetMaxHP(8);
         }
     }
-
-    protected override void OnSetActive(bool active)
-    {
-        if(isAngered && active)
-        {
-            SetMoving(true);
-        }
-        else
-        {
-            SetMoving(false);
-        }
-    }
-
-    protected override void OnSetAngered()
-    {
-        if(isActive)
-        {
-            SetMoving(true);
-        }
-    }
-
-    private void SetMoving(bool moving)
-    {
-        animator.SetBool(AnimationBools.MovingBool, moving);
-        shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
-    }
 }

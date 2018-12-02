@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: RunnerShadowController
+  m_Name: ShooterShadowController
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Moving
@@ -95,7 +95,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6e0c8cfe98ee0214ba9305548d5db448, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2e9fc3bdc5cca78408fc6ba8c0fc870d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -107,7 +107,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ShooterShadowMove
+  m_Name: ShooterShadowRun
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -121,7 +121,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1d58d8010cc402f4992d0aa40c73d57b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 78feef36457bd7e48abf39d937aa1e23, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
