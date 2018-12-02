@@ -10,15 +10,28 @@ public class WorldManager : MonoBehaviour
     private const int WorldSize = 3;
     private const float TileSize = 10.24f;
 
+    private const int grassAmount = 256;
+    private const int treesAmount = 32;
+    private const int rocksAmount = 32;
+
     public Transform groundHolder;
     public Transform groundTilePrefab;
     public Transform lavaHolder;
     public Transform lavaPrefab;
+    public Transform grassHolder;
+    public Transform grassPrefab;
+    public Transform rockHolder;
+    public Transform rockPrefab;
+    public Transform treeHolder;
+    public Transform treePrefab;
 
     public void CreateWorld()
     {
         CreateLava();
         CreateGround();
+        CreateGrass();
+        CreateRocks();
+        CreateTrees();
     }
 
     public void CreateLava()
@@ -51,6 +64,30 @@ public class WorldManager : MonoBehaviour
                 Instantiate(groundTilePrefab, new Vector3(i * TileSize, j * TileSize, 0f), Quaternion.identity, groundHolder);
 #endif
             }
+        }
+    }
+
+    public void CreateGrass()
+    {
+        for (int i = 0; i <= grassAmount; i++)
+        {
+            Instantiate(grassPrefab, GetRandomWorldPosition(), Quaternion.identity, grassHolder);
+        }
+    }
+
+    public void CreateRocks()
+    {
+        for (int i = 0; i <= rocksAmount; i++)
+        {
+            Instantiate(rockPrefab, GetRandomWorldPosition(), Quaternion.identity, rockHolder);
+        }
+    }
+
+    public void CreateTrees()
+    {
+        for (int i = 0; i <= treesAmount; i++)
+        {
+            Instantiate(treePrefab, GetRandomWorldPosition(), Quaternion.identity, treeHolder);
         }
     }
 
