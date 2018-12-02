@@ -10,6 +10,8 @@ public class EnemyGroup : MonoBehaviour
 
     private bool isAngered = false;
 
+    private const float spawnRadius = 3f;
+
     public void CreateRandomGroup()
     {
         CreateGroup(GetRandomGroupType(), GetRandomGroupSize());
@@ -20,7 +22,36 @@ public class EnemyGroup : MonoBehaviour
         this.groupType = groupType;
         this.groupSize = groupSize;
 
+        int maxLevel = 0;
+        if(groupType == EnemyGroupType.Average)
+        {
+            maxLevel = 1;
+        }
+        if (groupType == EnemyGroupType.Strong)
+        {
+            maxLevel = 2;
+        }
 
+        int currentSize = Random.Range(2, 4);
+        if (groupSize == EnemyGroupSize.Average)
+        {
+            currentSize = Random.Range(4, 6);
+        }
+        if (groupSize == EnemyGroupSize.Big)
+        {
+            currentSize = Random.Range(6, 9);
+        }
+
+        enemies = new List<Enemy>();
+
+        for(int i = 0; i < currentSize; i++)
+        {
+            Enemy enemy = Instantiate(GameManager.instance.enemyManager.GetEnemyPrefabByType(GetRandomEnemyType()),
+                                                   GetRandomGroupPosition(), Quaternion.identity, transform).GetComponent<Enemy>();
+            enemy.SetLevel(Random.Range(0, maxLevel + 1));
+            enemy.enemyGroup = this;
+            enemies.Add(enemy);
+        }
     }
 
     public void SetAngered()
@@ -39,6 +70,11 @@ public class EnemyGroup : MonoBehaviour
         }        
     }
 
+    private Vector3 GetRandomGroupPosition()
+    {
+        return transform.position + new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius), 0f);
+    }
+
     public EnemyGroupType GetRandomGroupType()
     {
         var values = System.Enum.GetValues(typeof(EnemyGroupType));
@@ -49,6 +85,12 @@ public class EnemyGroup : MonoBehaviour
     {
         var values = System.Enum.GetValues(typeof(EnemyGroupSize));
         return (EnemyGroupSize)values.GetValue(Random.Range(0, values.Length));
+    }
+
+    public EnemyType GetRandomEnemyType()
+    {
+        var values = System.Enum.GetValues(typeof(EnemyType));
+        return (EnemyType)values.GetValue(Random.Range(0, values.Length - 1));
     }
 }
 
