@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerPowerUps : MonoBehaviour
 {
+    private const float onceChance = 0.1f;
+    private List<PowerUpOnceType> onceTypesUsed = new List<PowerUpOnceType>();
+
     public const int healthGain = 1;
     public const int damageGain = 1;
     public const float moveSpeedGain = 0.5f;
@@ -22,12 +25,45 @@ public class PlayerPowerUps : MonoBehaviour
     public int bonusMultishot = 0;
     public int bonusPierce = 0;
 
+    public GameObject hat;
+
     public void OnPowerUpPickedUp()
     {
+        if(Random.Range(0f, 1f) < onceChance)
+        {
+            PickOncePowerUp();
+        }
+        else
+        {
+            PickOrdinaryPowerUp();
+        }
+    }
+
+    private void PickOrdinaryPowerUp()
+    {
         PowerUpType powerUpType = GetRandomPowerUpType();
-        GameManager.instance.uiManager.OnPowerUpPickedUp(powerUpType.ToString());
+
+        string text = "!!! " + powerUpType.ToString() + " !!!";
+        GameManager.instance.uiManager.OnPowerUpPickedUp(text);
 
         ApplyPowerUp(powerUpType);
+    }
+
+    private void PickOncePowerUp()
+    {
+        PowerUpOnceType powerUpType = GetRandomAvailablePowerUpOnceType();
+
+        if (powerUpType == PowerUpOnceType.Unavailable)
+        {
+            PickOrdinaryPowerUp();
+            return;
+        }
+
+        string text = "!!! " + powerUpType.ToString() + " !!!";
+        GameManager.instance.uiManager.OnPowerUpPickedUp(text);
+        onceTypesUsed.Add(powerUpType);
+
+        ApplyPowerUpOnce(powerUpType);
     }
 
     private void ApplyPowerUp(PowerUpType powerUpType)
@@ -70,6 +106,18 @@ public class PlayerPowerUps : MonoBehaviour
         }
     }
 
+    private void ApplyPowerUpOnce(PowerUpOnceType powerUpType)
+    {
+        if(powerUpType == PowerUpOnceType.AwesomeHat)
+        {
+            hat.SetActive(true);
+        }
+        else
+        {
+            GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+        }
+    }
+
     public PowerUpType GetRandomPowerUpType()
     {
         var values = System.Enum.GetValues(typeof(PowerUpType));
@@ -79,7 +127,34 @@ public class PlayerPowerUps : MonoBehaviour
     public PowerUpOnceType GetRandomPowerUpOnceType()
     {
         var values = System.Enum.GetValues(typeof(PowerUpOnceType));
-        return (PowerUpOnceType)values.GetValue(Random.Range(0, values.Length));
+        return (PowerUpOnceType)values.GetValue(Random.Range(0, values.Length - 1));
+    }
+
+    public PowerUpOnceType GetRandomAvailablePowerUpOnceType()
+    {
+        PowerUpOnceType powerUpOnceType = GetRandomPowerUpOnceType();
+
+        if(onceTypesUsed != null && onceTypesUsed.Count > 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (onceTypesUsed.Contains(powerUpOnceType))
+                {
+                    powerUpOnceType = GetRandomPowerUpOnceType();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        if (onceTypesUsed.Contains(powerUpOnceType))
+        {
+            powerUpOnceType = PowerUpOnceType.Unavailable;
+        }
+
+        return powerUpOnceType;
     }
 }
 
@@ -100,5 +175,8 @@ public enum PowerUpOnceType
     TunnelVision,
     Psychedelic,
     InBloom,
-    CoolHat
+    Noir,
+    Film,
+    AwesomeHat,
+    Unavailable
 }

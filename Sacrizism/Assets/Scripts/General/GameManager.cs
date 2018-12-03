@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public WorldManager worldManager;
     public EnemyManager enemyManager;
+    public PostProcessingManager postProcessingManager;
     public ParticlesManager particlesManager;
     public CameraMovement cameraMovement;
     public Transform player;
