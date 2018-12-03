@@ -10,8 +10,11 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.2f);
-        GetComponent<SpriteRenderer>().sortingOrder = -1;
+        if(GameManager.instance.gameState == GameState.Level)
+        {
+            yield return new WaitForSeconds(0.2f);
+            GetComponent<SpriteRenderer>().sortingOrder = -1;
+        }
     }
 
     public void SetDirection(Vector2 direction)

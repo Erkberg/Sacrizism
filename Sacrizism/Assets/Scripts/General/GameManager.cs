@@ -46,8 +46,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         if(restartFromBoss)
-        {
-            restartFromBoss = false;
+        {            
             StartCoroutine(playerPowerUps.RestorePowerUps());
             uiManager.blackBackground.SetActive(false);
             currentSacriBarAmount = 0f;
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
 
             gameState = GameState.Level;
             audioManager.PlayMusic();
+            audioManager.PlayAtmo();
         }
         else
         {
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         uiManager.DisplayTutorial();
         SetPlayerActive(true);
         audioManager.PlayMusic();
+        audioManager.PlayAtmo();
     }
 
     private void Update()
@@ -139,6 +140,15 @@ public class GameManager : MonoBehaviour
         Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
 
         SetPlayerActive(false);
+
+        if(restartFromBoss)
+        {
+            restartFromBoss = false;
+        }
+        else
+        {
+            yield return StartCoroutine(uiManager.PlayBossIntro());
+        }
 
         cameraMovement.isFollowing = false;
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);

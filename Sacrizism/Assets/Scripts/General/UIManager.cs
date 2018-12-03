@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public UIHolder introHolder;
     public UIHolder regularDeathHolder;
     public UIHolder bossDeathHolder;
+    public UIHolder bossIntroHolder;
     public UIHolder outroRegularHolder;
     public UIHolder creditsHolder;
 
@@ -179,6 +180,15 @@ public class UIManager : MonoBehaviour
         yield return new WaitUntil(() => Input.anyKeyDown);
         outroRegularHolder.gameObject.SetActive(false);
         StartCoroutine(PlayCredits());
+    }
+
+    public IEnumerator PlayBossIntro()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossIntroHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossIntroHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
     }
 
     public IEnumerator PlayCredits()
