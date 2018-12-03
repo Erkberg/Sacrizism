@@ -9,6 +9,7 @@ public class PlayerPowerUps : MonoBehaviour
     private static List<PowerUpOnceType> savedOnceTypesUsed = new List<PowerUpOnceType>();
 
     public int powerUpsCollected = 0;
+    public static int savedPowerUpsCollected = 0;
 
     public const int healthGain = 1;
     public const int damageGain = 1;
@@ -188,6 +189,7 @@ public class PlayerPowerUps : MonoBehaviour
         savedBonusBulletSpeed = bonusBulletSpeed;
         savedBonusMultishot = bonusMultishot;
         savedBonusPierce = bonusPierce;
+        savedPowerUpsCollected = powerUpsCollected;
 
         savedOnceTypesUsed = new List<PowerUpOnceType>(onceTypesUsed);
     }
@@ -204,6 +206,7 @@ public class PlayerPowerUps : MonoBehaviour
         bonusBulletSpeed = savedBonusBulletSpeed;
         bonusMultishot = savedBonusMultishot;
         bonusPierce = savedBonusPierce;
+        powerUpsCollected = savedPowerUpsCollected;
 
         GetComponent<Character>().maxHP += bonusHealth;
         GetComponent<Character>().Heal(100);
@@ -228,6 +231,7 @@ public class PlayerPowerUps : MonoBehaviour
         savedBonusBulletSpeed = 0f;
         savedBonusMultishot = 0;
         savedBonusPierce = 0;
+        savedPowerUpsCollected = 0;
     }
 }
 

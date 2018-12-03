@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         WantedCheat();
         // TODO: Remove before final build!!!
-        Cheats();
+        //Cheats();
     }
 
     public void OnBossTakeDamage(int amount)
@@ -253,6 +253,10 @@ public class GameManager : MonoBehaviour
         {
             restartFromBoss = true;
             playerPowerUps.SavePowerUps();
+        }
+        else
+        {
+            restartFromBoss = false;
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
