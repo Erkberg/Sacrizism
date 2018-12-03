@@ -78,8 +78,8 @@ public class Enemy : MonoBehaviour
     {
         this.level = level;
 
-        float gbColor = 1f - (float) level / maxLevel;
-        spriteRenderer.color = new Color(1f, gbColor, gbColor, 1f);
+        float bColor = 1f - (float) level / maxLevel;
+        spriteRenderer.color = new Color(1f, bColor, 1f, 1f);
 
         OnSetLevel();
     }

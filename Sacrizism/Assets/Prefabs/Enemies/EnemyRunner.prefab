@@ -106,8 +106,8 @@ GameObject:
   - component: {fileID: 4012200944080010}
   - component: {fileID: 114774765008840130}
   - component: {fileID: 114974541344768328}
-  - component: {fileID: 58777354707126566}
   - component: {fileID: 50198225291689416}
+  - component: {fileID: 70767871287082868}
   m_Layer: 0
   m_Name: EnemyRunner
   m_TagString: Enemy
@@ -207,8 +207,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58777354707126566
-CircleCollider2D:
+--- !u!70 &70767871287082868
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -219,9 +219,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Offset: {x: 0.033, y: -0.15}
+  m_Size: {x: 1.1, y: 0.5}
+  m_Direction: 1
 --- !u!95 &95576170612447664
 Animator:
   serializedVersion: 3

@@ -5522,6 +5522,21 @@ Prefab:
       propertyPath: bulletsHolder
       value: 
       objectReference: {fileID: 968015974}
+    - target: {fileID: 114444820794969398, guid: caa4ac310dd137b498048003bd100954,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114444820794969398, guid: caa4ac310dd137b498048003bd100954,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114444820794969398, guid: caa4ac310dd137b498048003bd100954,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa4ac310dd137b498048003bd100954, type: 2}
   m_IsPrefabAsset: 0
