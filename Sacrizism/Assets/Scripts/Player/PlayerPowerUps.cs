@@ -36,6 +36,7 @@ public class PlayerPowerUps : MonoBehaviour
         {
             case PowerUpType.Health:
                 bonusHealth += healthGain;
+                GetComponent<Character>().maxHP += healthGain;
                 GetComponent<Character>().Heal(100);
                 break;
 

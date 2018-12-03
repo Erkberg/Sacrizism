@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb2D;
     public Animator animator;
     public Animator shadowAnimator;
+    public PlayerPowerUps playerPowerUps;
 
     public float moveSpeed = 1f;
     private bool isMoving = false;
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
 
-        rb2D.velocity = movement * moveSpeed;
+        rb2D.velocity = movement * (moveSpeed + playerPowerUps.bonusMoveSpeed);
 
         CheckMovingAnimation();
 	}

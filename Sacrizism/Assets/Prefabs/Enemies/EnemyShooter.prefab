@@ -379,6 +379,7 @@ MonoBehaviour:
   changeFacing: {fileID: 114259339374636936}
   animator: {fileID: 95576170612447664}
   shadowAnimator: {fileID: 95838058433158950}
+  hasPowerUp: 0
   enemyBulletPrefab: {fileID: 4965485838124890, guid: f7582c724a7093344af20f25f0a1a4e7,
     type: 2}
   bulletsHolder: {fileID: 0}

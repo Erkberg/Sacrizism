@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public float shootingThreshold = 0.1f;
 
     public ChangeFacing changeFacing;
+    public PlayerPowerUps playerPowerUps;
 
     private float reloadTimePassed = 0f;
     private bool isReloading = false;
@@ -59,7 +60,29 @@ public class PlayerCombat : MonoBehaviour
 
         GameManager.instance.cameraMovement.Shake();
 
+        SpawnBullet(direction);
+
+        int amountOfMultishots = playerPowerUps.bonusMultishot;
+        if (amountOfMultishots > 0)
+        {
+            float maxAngle = amountOfMultishots * 30f;
+
+            for(int i = 0; i < amountOfMultishots; i++)
+            {
+                float degrees = Random.Range(-maxAngle, maxAngle);
+                Vector2 newDirection = Quaternion.Euler(0, 0, degrees) * direction;
+                SpawnBullet(newDirection);
+            }
+        }
+    }
+
+    private void SpawnBullet(Vector2 direction)
+    {
         PlayerBullet bullet = Instantiate(playerBullet, transform.position, Quaternion.identity, bulletsHolder).GetComponent<PlayerBullet>();
+        bullet.AddDamage(playerPowerUps.bonusDamage);
+        bullet.AddSize(playerPowerUps.bonusBulletSize);
+        bullet.AddMoveSpeed(playerPowerUps.bonusBulletSpeed);
+        bullet.AddPierce(playerPowerUps.bonusPierce);
         bullet.SetDirection(direction);
     }
 
@@ -67,7 +90,7 @@ public class PlayerCombat : MonoBehaviour
     {
         reloadTimePassed += Time.deltaTime;
 
-        if(reloadTimePassed >= reloadTime)
+        if(reloadTimePassed >= (reloadTime - playerPowerUps.bonusReloadTime))
         {
             isReloading = false;
             reloadTimePassed = 0f;
