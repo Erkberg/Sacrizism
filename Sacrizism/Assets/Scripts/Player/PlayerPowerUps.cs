@@ -7,6 +7,8 @@ public class PlayerPowerUps : MonoBehaviour
     private const float onceChance = 0.1f;
     private List<PowerUpOnceType> onceTypesUsed = new List<PowerUpOnceType>();
 
+    public int powerUpsCollected = 0;
+
     public const int healthGain = 1;
     public const int damageGain = 1;
     public const float moveSpeedGain = 0.5f;
@@ -47,6 +49,8 @@ public class PlayerPowerUps : MonoBehaviour
         GameManager.instance.uiManager.OnPowerUpPickedUp(text);
 
         ApplyPowerUp(powerUpType);
+
+        powerUpsCollected++;
     }
 
     private void PickOncePowerUp()

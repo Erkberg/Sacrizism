@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameState gameState = GameState.Intro;
+
     public UIManager uiManager;
     public WorldManager worldManager;
     public EnemyManager enemyManager;
@@ -14,12 +16,23 @@ public class GameManager : MonoBehaviour
     public ParticlesManager particlesManager;
     public CameraMovement cameraMovement;
     public Transform player;
+    public Transform bossCollidersPrefab;
+    public Transform bossPrefab;
+    private Transform boss;
 
     public Transform powerUpPrefab;
 
     private const float sacriBarMax = 100f;
     private const float sacriBarDecline = 1f;
     private float currentSacriBarAmount;
+
+    private const int bossBaseHealth = 100;
+    private const int bossHealthGainPerPowerup = 50;
+    private int bossMaxHealth;
+    private int bossCurrentHealth;
+
+    private readonly Vector3 bossOffset = new Vector3(0f, 4.67f, 0f);
+    private readonly Vector3 bossCameraOffset = new Vector3(0f, 3f, 0f);
 
     private void Awake()
     {
@@ -39,22 +52,77 @@ public class GameManager : MonoBehaviour
         currentSacriBarAmount = sacriBarMax / 2f;
         worldManager.CreateWorld();
         enemyManager.CreateEnemies();
+        gameState = GameState.Level;
     }
 
     private void Update()
     {
-        currentSacriBarAmount -= sacriBarDecline * Time.deltaTime;
-        uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
-
-        if(currentSacriBarAmount <= 0f)
+        if(gameState == GameState.Level)
         {
-            OnSacriBarEmpty();
+            currentSacriBarAmount -= sacriBarDecline * Time.deltaTime;
+            uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+
+            if (currentSacriBarAmount <= 0f)
+            {
+                OnSacriBarEmpty();
+            }
         }
+
+        // TODO: Remove before final build!!!
+        Cheats();
+    }
+
+    public void OnBossTakeDamage(int amount)
+    {
+        bossCurrentHealth -= amount;
+
+        uiManager.SetSacriBarFillAmount(1f - ((float) bossCurrentHealth / bossMaxHealth));
+
     }
 
     private void OnSacriBarEmpty()
     {
-        // spawn boss
+        gameState = GameState.Boss;
+        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * player.GetComponent<PlayerPowerUps>().powerUpsCollected;
+        bossCurrentHealth = bossMaxHealth;
+        uiManager.SetSacriBarFillAmount(0f);
+        StartCoroutine(BossAppearSequence());
+    }
+
+    private IEnumerator BossAppearSequence()
+    {
+        Instantiate(bossCollidersPrefab, player.position + bossCameraOffset, Quaternion.identity);
+        
+        player.GetComponent<PlayerMovement>().movementEnabled = false;
+        player.GetComponent<PlayerCombat>().shootingEnabled = false;
+
+        cameraMovement.isFollowing = false;
+        cameraMovement.MoveToTargetPosition(player.position + bossCameraOffset);
+
+        yield return new WaitForSeconds(1f);
+
+        boss = Instantiate(bossPrefab, player.position + bossOffset * 3f, Quaternion.identity);
+
+        while(boss.position.y > player.position.y + bossOffset.y)
+        {
+            boss.transform.position -= new Vector3(0f, 10f, 0f) * Time.deltaTime;
+            yield return null;
+        }
+
+        boss.transform.position = player.position + bossOffset;
+
+        uiManager.OnBossStarted();
+
+        worldManager.DestroyAllRocksAndTrees();
+        enemyManager.DestroyAllEnemies();
+
+        cameraMovement.Shake(new Vector2(0f, 2f), 1f, 4f);
+        
+
+        yield return new WaitForSeconds(1f);
+
+        player.GetComponent<PlayerMovement>().movementEnabled = true;
+        player.GetComponent<PlayerCombat>().shootingEnabled = true;
     }
 
     public void OnDeath()
@@ -77,4 +145,33 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(powerUpPrefab, position, Quaternion.identity);
     }
+
+    private void Cheats()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            currentSacriBarAmount = 1f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            currentSacriBarAmount = 1f;
+
+            PlayerPowerUps powerUps = player.GetComponent<PlayerPowerUps>();
+
+            for(int i = 0; i < EnemyManager.amountOfEnemyGroups / 2; i++)
+            {
+                powerUps.OnPowerUpPickedUp();
+            }
+        }
+    }
+}
+
+public enum GameState
+{
+    Intro,
+    Level,
+    Boss,
+    Outro,
+    Sequence
 }

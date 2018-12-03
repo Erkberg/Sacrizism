@@ -25,6 +25,9 @@ public class WorldManager : MonoBehaviour
     public Transform treeHolder;
     public Transform treePrefab;
 
+    private List<Transform> allRocks = new List<Transform>();
+    private List<Transform> allTrees = new List<Transform>();
+
     public void CreateWorld()
     {
         CreateLava();
@@ -79,7 +82,7 @@ public class WorldManager : MonoBehaviour
     {
         for (int i = 0; i <= rocksAmount; i++)
         {
-            Instantiate(rockPrefab, GetRandomWorldPosition(), Quaternion.identity, rockHolder);
+            allRocks.Add(Instantiate(rockPrefab, GetRandomWorldPosition(), Quaternion.identity, rockHolder));
         }
     }
 
@@ -87,7 +90,20 @@ public class WorldManager : MonoBehaviour
     {
         for (int i = 0; i <= treesAmount; i++)
         {
-            Instantiate(treePrefab, GetRandomWorldPosition(), Quaternion.identity, treeHolder);
+            allTrees.Add(Instantiate(treePrefab, GetRandomWorldPosition(), Quaternion.identity, treeHolder));
+        }
+    }
+
+    public void DestroyAllRocksAndTrees()
+    {
+        for(int i = 0; i < allRocks.Count; i++)
+        {
+            Destroy(allRocks[i].gameObject);
+        }
+
+        for (int i = 0; i < allRocks.Count; i++)
+        {
+            Destroy(allTrees[i].gameObject);
         }
     }
 

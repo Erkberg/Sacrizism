@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private const int amountOfEnemyGroups = 32;
+    public const int amountOfEnemyGroups = 32;
     private const float minGroupDistance = 6f;
 
     public Transform enemiesHolder;
@@ -40,6 +40,14 @@ public class EnemyManager : MonoBehaviour
             Transform enemyGroup = Instantiate(enemyGroupPrefab, position, Quaternion.identity, enemiesHolder);
             enemyGroup.GetComponent<EnemyGroup>().CreateRandomGroup();
             enemyGroups.Add(enemyGroup);
+        }
+    }
+
+    public void DestroyAllEnemies()
+    {
+        for (int i = 0; i < enemyGroups.Count; i++)
+        {
+            Destroy(enemyGroups[i].gameObject);
         }
     }
 

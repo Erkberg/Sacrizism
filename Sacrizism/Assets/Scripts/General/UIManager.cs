@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Text powerUpText;
 
     public GameObject tutorial;
+    public GameObject bossRedX;
 
     private void Awake()
     {
@@ -48,5 +49,10 @@ public class UIManager : MonoBehaviour
         tutorial.SetActive(true);
         yield return new WaitForSeconds(8f);
         tutorial.SetActive(false);
+    }
+
+    public void OnBossStarted()
+    {
+        bossRedX.SetActive(true);
     }
 }

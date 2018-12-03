@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 0, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -379,7 +379,7 @@ MonoBehaviour:
   playerBullet: {fileID: 4965485838124890, guid: e96b439e363b081469cfc25927c6f2fc,
     type: 2}
   bulletsHolder: {fileID: 0}
-  reloadTime: 0.33
+  reloadTime: 0.5
   shootingThreshold: 0.1
   changeFacing: {fileID: 114094883861065172}
   playerPowerUps: {fileID: 114357334069887696}
