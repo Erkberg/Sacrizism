@@ -72,7 +72,7 @@ public class BossEyes : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             // bullets
-            for(int j = -4; j < 4; j++)
+            for(int j = -5; j < 5; j++)
             {
                 float angle = j * 20f + Random.Range(-8f, 8f);
 
@@ -97,7 +97,7 @@ public class BossEyes : MonoBehaviour
         // waves
         for (int i = -16; i < 16; i++)
         {
-            float angle = i * 8f;
+            float angle = i * 10f;
 
             SpawnBulletAtAngle(angle, size, speed, leftEye);
             SpawnBulletAtAngle(-angle, size, speed, rightEye);

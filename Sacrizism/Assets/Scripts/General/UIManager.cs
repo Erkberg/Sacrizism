@@ -42,9 +42,6 @@ public class UIManager : MonoBehaviour
         {
             CheckSelectionInput();
         }
-
-        if (Input.GetKeyDown(KeyCode.L))
-            StartCoroutine(PlayIntro());
     }
 
     private void CheckSelectionInput()

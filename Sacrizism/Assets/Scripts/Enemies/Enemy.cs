@@ -75,6 +75,8 @@ public class Enemy : MonoBehaviour
     public void Unanger()
     {
         isAngered = false;
+        rb2D.velocity = Vector2.zero;
+        CheckMovingAnimation();
     }
 
     protected virtual void OnSetAngered() { }
