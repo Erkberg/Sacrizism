@@ -72,6 +72,11 @@ public class Enemy : MonoBehaviour
         }        
     }
 
+    public void Unanger()
+    {
+        isAngered = false;
+    }
+
     protected virtual void OnSetAngered() { }
 
     public void SetLevel(int level)

@@ -15,7 +15,6 @@ public class HPBar : MonoBehaviour
 
     public void SetWidthPercentage(float percentage)
     {
-        Debug.Log("set percentage " + percentage);
         image.sizeDelta = new Vector2(initialWidth * percentage, image.sizeDelta.y);
     }
 }

@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     public UIHolder introHolder;
     public UIHolder regularDeathHolder;
     public UIHolder bossDeathHolder;
+    public UIHolder outroRegularHolder;
+    public UIHolder creditsHolder;
 
     public Text restartFromBeginningText;
     public Text restartFromBossText;
@@ -40,6 +42,9 @@ public class UIManager : MonoBehaviour
         {
             CheckSelectionInput();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+            StartCoroutine(PlayIntro());
     }
 
     private void CheckSelectionInput()
@@ -155,6 +160,23 @@ public class UIManager : MonoBehaviour
         SetSelectionColors();
         yield return StartCoroutine(bossDeathHolder.PlayBlock());        
         waitingForSelection = true;
+    }
+
+    public IEnumerator PlayOutroRegular()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(outroRegularHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        outroRegularHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
+    public IEnumerator PlayCredits()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(creditsHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        GameManager.instance.RestartGame();
     }
 
     public void OnClickRestartRegularButton()

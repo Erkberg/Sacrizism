@@ -41,13 +41,20 @@ public class PlayerPowerUps : MonoBehaviour
 
     public void OnPowerUpPickedUp()
     {
-        if(Random.Range(0f, 1f) < onceChance)
+        if(powerUpsCollected < 3)
         {
-            PickOncePowerUp();
+            PickOrdinaryPowerUp();
         }
         else
         {
-            PickOrdinaryPowerUp();
+            if (Random.Range(0f, 1f) < onceChance)
+            {
+                PickOncePowerUp();
+            }
+            else
+            {
+                PickOrdinaryPowerUp();
+            }
         }
     }
 

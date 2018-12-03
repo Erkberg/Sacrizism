@@ -13,9 +13,20 @@ public class BossEyes : MonoBehaviour
     private int previousSequenceID = 0;
     private readonly Vector3 standardDirection = new Vector3(0f, -1f, 0f);
 
+    private void Awake()
+    {
+        bulletsHolder = GameObject.FindGameObjectWithTag(Tags.BulletsHolderTag).transform;
+    }
+
     public void TakeDamage(int amount)
     {
         GameManager.instance.OnBossTakeDamage(amount);
+    }
+
+    public void OnDeath()
+    {
+        StopAllCoroutines();
+        Destroy(bulletsHolder.gameObject);
     }
 
     public void StartLoop()

@@ -88,6 +88,8 @@ public class HealerEnemy : Enemy
     {
         if (level == 1)
         {
+            animator.speed *= 1.5f;
+            shadowAnimator.speed *= 1.5f;
             moveSpeed *= 1.5f;
             character.SetMaxHP(10);
             reloadTime *= 0.9f;
@@ -97,6 +99,8 @@ public class HealerEnemy : Enemy
         if (level == 2)
         {
             moveSpeed *= 2f;
+            animator.speed *= 2f;
+            shadowAnimator.speed *= 2f;
             character.SetMaxHP(15);
             reloadTime *= 0.8f;
             healAmount = 3;

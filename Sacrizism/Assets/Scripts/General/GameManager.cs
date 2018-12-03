@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
     public CameraMovement cameraMovement;
     public Transform player;
+    public PlayerPowerUps playerPowerUps;
     public Transform bossCollidersPrefab;
     public Transform bossPrefab;
     private Transform boss;
@@ -25,11 +26,11 @@ public class GameManager : MonoBehaviour
     public Transform powerUpPrefab;
 
     private const float sacriBarMax = 100f;
-    private const float sacriBarDecline = 1f;
+    private const float sacriBarDecline = 0.75f;
     private float currentSacriBarAmount;
 
     private const int bossBaseHealth = 100;
-    private const int bossHealthGainPerPowerup = 50;
+    private const int bossHealthGainPerPowerup = 40;
     private int bossMaxHealth;
     private int bossCurrentHealth;
 
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour
         if(restartFromBoss)
         {
             restartFromBoss = false;
-            StartCoroutine(player.GetComponent<PlayerPowerUps>().RestorePowerUps());
+            StartCoroutine(playerPowerUps.RestorePowerUps());
             uiManager.blackBackground.SetActive(false);
             currentSacriBarAmount = 0f;
             worldManager.CreateWorld();
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         if(gameState == GameState.Level)
         {
-            currentSacriBarAmount -= sacriBarDecline * Time.deltaTime;
+            currentSacriBarAmount -= sacriBarDecline * (1f + playerPowerUps.powerUpsCollected * 0.05f) * Time.deltaTime;
             uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
 
             if (currentSacriBarAmount <= 0f)
@@ -104,12 +105,24 @@ public class GameManager : MonoBehaviour
 
         uiManager.SetSacriBarFillAmount(1f - ((float) bossCurrentHealth / bossMaxHealth));
 
+        if(bossCurrentHealth <= 0)
+        {
+            StartCoroutine(BossDeathSequence());
+        }
+    }
+
+    private IEnumerator BossDeathSequence()
+    {
+        SetPlayerActive(false);
+        gameState = GameState.Sequence;
+        yield return StartCoroutine(boss.GetComponent<BossEnemy>().Die());
+        StartCoroutine(uiManager.PlayOutroRegular());        
     }
 
     private void OnSacriBarEmpty()
     {
         gameState = GameState.Boss;
-        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * player.GetComponent<PlayerPowerUps>().powerUpsCollected;
+        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsCollected;
         bossCurrentHealth = bossMaxHealth;
         uiManager.SetSacriBarFillAmount(0f);
         StartCoroutine(BossAppearSequence());
@@ -117,6 +130,16 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BossAppearSequence()
     {
+        foreach(Enemy enemy in FindObjectsOfType<Enemy>())
+        {
+            enemy.Unanger();
+        }
+
+        foreach(Bullet bullet in FindObjectsOfType<Bullet>())
+        {
+            Destroy(bullet.gameObject);
+        }
+
         Vector3 playerPosition = player.position;
         Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
 
@@ -196,7 +219,7 @@ public class GameManager : MonoBehaviour
         if(Input.GetKey(KeyCode.E) && Input.GetKeyDown(KeyCode.G))
         {
             uiManager.tutorial.SetActive(false);
-            player.GetComponent<PlayerPowerUps>().OnPowerUpPickedUp();
+            playerPowerUps.OnPowerUpPickedUp();
         }
     }
 
@@ -212,11 +235,9 @@ public class GameManager : MonoBehaviour
             currentSacriBarAmount = 1f;
             uiManager.tutorial.SetActive(false);
 
-            PlayerPowerUps powerUps = player.GetComponent<PlayerPowerUps>();
-
             for(int i = 0; i < EnemyManager.amountOfEnemyGroups / 2; i++)
             {
-                powerUps.OnPowerUpPickedUp();
+                playerPowerUps.OnPowerUpPickedUp();
             }
         }
     }
@@ -226,7 +247,7 @@ public class GameManager : MonoBehaviour
         if(restartAtBoss)
         {
             restartFromBoss = true;
-            player.GetComponent<PlayerPowerUps>().SavePowerUps();
+            playerPowerUps.SavePowerUps();
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
