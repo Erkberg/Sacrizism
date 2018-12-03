@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        WantedCheat();
         // TODO: Remove before final build!!!
         Cheats();
     }
@@ -123,6 +124,8 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<PlayerMovement>().movementEnabled = true;
         player.GetComponent<PlayerCombat>().shootingEnabled = true;
+
+        boss.GetComponent<BossEnemy>().bossEyes.StartLoop();
     }
 
     public void OnDeath()
@@ -146,6 +149,15 @@ public class GameManager : MonoBehaviour
         Instantiate(powerUpPrefab, position, Quaternion.identity);
     }
 
+    private void WantedCheat()
+    {
+        if(Input.GetKey(KeyCode.E) && Input.GetKeyDown(KeyCode.G))
+        {
+            uiManager.tutorial.SetActive(false);
+            player.GetComponent<PlayerPowerUps>().OnPowerUpPickedUp();
+        }
+    }
+
     private void Cheats()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -156,6 +168,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             currentSacriBarAmount = 1f;
+            uiManager.tutorial.SetActive(false);
 
             PlayerPowerUps powerUps = player.GetComponent<PlayerPowerUps>();
 

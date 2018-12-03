@@ -29,6 +29,21 @@ public class Bullet : MonoBehaviour
         transform.localScale = new Vector3(size, size, 1f);
     }
 
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
+
+    public void SetMoveSpeed(float newMoveSpeed)
+    {
+        moveSpeed = newMoveSpeed;
+    }
+
+    public void SetSize(float newSize)
+    {
+        transform.localScale = new Vector3(newSize, newSize, 1f);
+    }
+
     public void AddPierce(int bonusPierce)
     {
         pierce += bonusPierce;

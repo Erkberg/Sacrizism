@@ -327,6 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftEye: {fileID: 4562870818079482}
   rightEye: {fileID: 4726790480632166}
+  bulletsHolder: {fileID: 0}
   bulletPrefab: {fileID: 4965485838124890, guid: f7582c724a7093344af20f25f0a1a4e7,
     type: 2}
 --- !u!114 &114734330319199174
@@ -351,6 +352,7 @@ MonoBehaviour:
   animator: {fileID: 95597312436727844}
   shadowAnimator: {fileID: 95548597656048128}
   hasPowerUp: 0
+  bossEyes: {fileID: 114485706513444992}
 --- !u!114 &114800718433504684
 MonoBehaviour:
   m_ObjectHideFlags: 1
