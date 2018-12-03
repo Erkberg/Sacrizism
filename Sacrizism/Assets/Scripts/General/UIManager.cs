@@ -108,6 +108,17 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator PowerUpSequence()
     {
+        powerUp.transform.localScale = Vector3.zero;
+
+        while(powerUp.transform.localScale.x < 1f)
+        {
+            powerUp.transform.localScale += Vector3.one * Time.deltaTime * 6f;
+            yield return null;
+        }
+
+        powerUp.transform.localScale = Vector3.one;
+        StartCoroutine(GameManager.instance.cameraMovement.ShortZoomOut());
+
         yield return new WaitForSeconds(2f);
         powerUp.SetActive(false);
     }
