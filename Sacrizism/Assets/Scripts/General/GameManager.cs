@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static bool restartFromBoss = false;
 
     public GameState gameState = GameState.Intro;
 
@@ -50,12 +51,26 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-        currentSacriBarAmount = sacriBarMax / 2f;
-        worldManager.CreateWorld();
-        enemyManager.CreateEnemies();
-        SetPlayerActive(false);
+        if(restartFromBoss)
+        {
+            restartFromBoss = false;
+            StartCoroutine(player.GetComponent<PlayerPowerUps>().RestorePowerUps());
+            uiManager.blackBackground.SetActive(false);
+            currentSacriBarAmount = 0f;
+            worldManager.CreateWorld();
+            enemyManager.CreateEnemies();
 
-        StartCoroutine(uiManager.PlayIntro());
+            gameState = GameState.Level;
+        }
+        else
+        {
+            currentSacriBarAmount = sacriBarMax / 2f;
+            worldManager.CreateWorld();
+            enemyManager.CreateEnemies();
+            SetPlayerActive(false);
+
+            StartCoroutine(uiManager.PlayIntro());
+        }
     }
 
     public void OnIntroEnded()
@@ -145,7 +160,19 @@ public class GameManager : MonoBehaviour
 
     public void OnDeath()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SetPlayerActive(false);
+
+        if(gameState == GameState.Level)
+        {
+            StartCoroutine(uiManager.PlayRegularDeath());
+        }
+
+        if (gameState == GameState.Boss)
+        {
+            StartCoroutine(uiManager.PlayBossDeath());
+        }
+
+        gameState = GameState.Sequence;
     }
 
     public void OnEnemyKilled(int level)
@@ -192,6 +219,17 @@ public class GameManager : MonoBehaviour
                 powerUps.OnPowerUpPickedUp();
             }
         }
+    }
+
+    public void RestartGame(bool restartAtBoss = false)
+    {
+        if(restartAtBoss)
+        {
+            restartFromBoss = true;
+            player.GetComponent<PlayerPowerUps>().SavePowerUps();
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
 

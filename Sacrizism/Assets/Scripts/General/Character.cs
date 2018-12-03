@@ -51,7 +51,7 @@ public class Character : MonoBehaviour
         }
 
         GameManager.instance.particlesManager.SpawnHealParticle(healOrigin);
-
+        Debug.Log(gameObject.name + " set hp bar width " + (float)currentHP / maxHP + " from " + currentHP + "/" + maxHP);
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 
@@ -60,6 +60,7 @@ public class Character : MonoBehaviour
         if(gameObject.CompareTag(Tags.PlayerTag))
         {
             gameObject.SetActive(false);
+            GameManager.instance.particlesManager.SpawnDeathParticle(transform);
             GameManager.instance.OnDeath();
         }
         else

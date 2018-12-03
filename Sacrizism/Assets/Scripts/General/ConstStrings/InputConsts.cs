@@ -8,4 +8,5 @@ public static class InputConsts
     public const string VerticalMovementAxis = "VerticalMovement";
     public const string HorizontalAimingAxis = "HorizontalAiming";
     public const string VerticalAimingAxis = "VerticalAiming";
+    public const string SubmitButton = "Submit";
 }

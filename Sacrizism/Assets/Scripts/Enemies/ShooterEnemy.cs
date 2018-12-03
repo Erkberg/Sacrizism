@@ -62,12 +62,14 @@ public class ShooterEnemy : Enemy
     {
         if (level == 1)
         {
-            character.SetMaxHP(6);
+            character.SetMaxHP(8);
+            reloadTime *= 0.75f;
         }
 
         if (level == 2)
         {
-            character.SetMaxHP(10);
+            character.SetMaxHP(12);
+            reloadTime *= 0.5f;
         }
 
         reloadTime *= GameManager.instance.GetSmallRandomizer();

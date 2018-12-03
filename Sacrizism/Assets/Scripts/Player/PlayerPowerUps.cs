@@ -6,6 +6,7 @@ public class PlayerPowerUps : MonoBehaviour
 {
     private const float onceChance = 0.1f;
     private List<PowerUpOnceType> onceTypesUsed = new List<PowerUpOnceType>();
+    private static List<PowerUpOnceType> savedOnceTypesUsed = new List<PowerUpOnceType>();
 
     public int powerUpsCollected = 0;
 
@@ -26,6 +27,15 @@ public class PlayerPowerUps : MonoBehaviour
     public float bonusBulletSpeed = 0f;
     public int bonusMultishot = 0;
     public int bonusPierce = 0;
+
+    public static int savedBonusHealth = 0;
+    public static int savedBonusDamage = 0;
+    public static float savedBonusMoveSpeed = 0f;
+    public static float savedBonusReloadTime = 0f;
+    public static float savedBonusBulletSize = 0f;
+    public static float savedBonusBulletSpeed = 0f;
+    public static int savedBonusMultishot = 0;
+    public static int savedBonusPierce = 0;
 
     public GameObject hat;
 
@@ -159,6 +169,58 @@ public class PlayerPowerUps : MonoBehaviour
         }
 
         return powerUpOnceType;
+    }
+
+    public void SavePowerUps()
+    {
+        savedBonusHealth = bonusHealth;
+        savedBonusDamage = bonusDamage ;
+        savedBonusMoveSpeed = bonusMoveSpeed;
+        savedBonusReloadTime = bonusReloadTime;
+        savedBonusBulletSize = bonusBulletSize;
+        savedBonusBulletSpeed = bonusBulletSpeed;
+        savedBonusMultishot = bonusMultishot;
+        savedBonusPierce = bonusPierce;
+
+        savedOnceTypesUsed = new List<PowerUpOnceType>(onceTypesUsed);
+    }
+
+    public IEnumerator RestorePowerUps()
+    {
+        yield return null;
+
+        bonusHealth = savedBonusHealth;
+        bonusDamage = savedBonusDamage;
+        bonusMoveSpeed = savedBonusMoveSpeed;
+        bonusReloadTime = savedBonusReloadTime;
+        bonusBulletSize = savedBonusBulletSize;
+        bonusBulletSpeed = savedBonusBulletSpeed;
+        bonusMultishot = savedBonusMultishot;
+        bonusPierce = savedBonusPierce;
+
+        GetComponent<Character>().maxHP += bonusHealth;
+        GetComponent<Character>().Heal(100);
+
+        onceTypesUsed = new List<PowerUpOnceType>(savedOnceTypesUsed);
+
+        if(onceTypesUsed != null && onceTypesUsed.Count > 0)
+        {
+            foreach(PowerUpOnceType powerUpOnceType in onceTypesUsed)
+            {
+                ApplyPowerUpOnce(powerUpOnceType);
+            }
+        }
+
+        savedOnceTypesUsed.Clear();
+
+        savedBonusHealth = 0;
+        savedBonusDamage = 0;
+        savedBonusMoveSpeed = 0f;
+        savedBonusReloadTime = 0f;
+        savedBonusBulletSize = 0f;
+        savedBonusBulletSpeed = 0f;
+        savedBonusMultishot = 0;
+        savedBonusPierce = 0;
     }
 }
 
