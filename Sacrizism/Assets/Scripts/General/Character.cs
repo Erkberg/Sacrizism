@@ -38,6 +38,8 @@ public class Character : MonoBehaviour
             Die();
         }
 
+        GameManager.instance.audioManager.PlayHurtSound();
+
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 

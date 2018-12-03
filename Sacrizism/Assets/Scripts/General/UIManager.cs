@@ -109,6 +109,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator PowerUpSequence()
     {
         powerUp.transform.localScale = Vector3.zero;
+        GameManager.instance.audioManager.PlayPowerUpSound();
 
         while(powerUp.transform.localScale.x < 1f)
         {
@@ -118,6 +119,7 @@ public class UIManager : MonoBehaviour
 
         powerUp.transform.localScale = Vector3.one;
         StartCoroutine(GameManager.instance.cameraMovement.ShortZoomOut());
+        GameManager.instance.audioManager.PlayUIElementAppearSound();
 
         yield return new WaitForSeconds(2f);
         powerUp.SetActive(false);
