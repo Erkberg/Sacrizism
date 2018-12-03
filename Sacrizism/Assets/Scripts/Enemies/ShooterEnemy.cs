@@ -13,6 +13,7 @@ public class ShooterEnemy : Enemy
     public float reloadTime = 1f;
     private float reloadTimePassed = 0f;
     private bool isReloading = false;
+    private float bulletSpeedBonus = 0f;
 
     protected override void OnAwake()
     {
@@ -62,12 +63,16 @@ public class ShooterEnemy : Enemy
     {
         if (level == 1)
         {
-            character.SetMaxHP(6);
+            character.SetMaxHP(8);
+            bulletSpeedBonus = 2f;
+            reloadTime *= 0.75f;
         }
 
         if (level == 2)
         {
-            character.SetMaxHP(10);
+            character.SetMaxHP(12);
+            bulletSpeedBonus = 4f;
+            reloadTime *= 0.5f;
         }
 
         reloadTime *= GameManager.instance.GetSmallRandomizer();
@@ -78,6 +83,7 @@ public class ShooterEnemy : Enemy
         isReloading = true;
 
         EnemyBullet bullet = Instantiate(enemyBulletPrefab, muzzle.position, Quaternion.identity, bulletsHolder).GetComponent<EnemyBullet>();
+        bullet.AddMoveSpeed(bulletSpeedBonus);
         bullet.SetDirection((player.transform.position - muzzle.position).normalized);
     }
 

@@ -15,6 +15,8 @@ public class PlayerCombat : MonoBehaviour
 
     private float reloadTimePassed = 0f;
     private bool isReloading = false;
+
+    public bool shootingEnabled = true;
 	
 	// Update is called once per frame
 	void Update ()
@@ -25,7 +27,10 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            CheckShoot();
+            if(shootingEnabled)
+            {
+                CheckShoot();
+            }            
         }
 
         CheckFacing();

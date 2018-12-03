@@ -12,6 +12,8 @@ TagManager:
   - BulletsHolder
   - Lava
   - PowerUp
+  - Boss
+  - BossEyes
   layers:
   - Default
   - TransparentFX

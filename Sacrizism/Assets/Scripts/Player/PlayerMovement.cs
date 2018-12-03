@@ -12,20 +12,31 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 1f;
     private bool isMoving = false;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
+    public bool movementEnabled = true;
 	
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
+        if(movementEnabled)
+        {
+            Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
 
-        rb2D.velocity = movement * (moveSpeed + playerPowerUps.bonusMoveSpeed);
+            rb2D.velocity = movement * (moveSpeed + playerPowerUps.bonusMoveSpeed);
 
-        CheckMovingAnimation();
+            CheckMovingAnimation();
+        }
 	}
+
+    public void EnableMovement(bool enabled)
+    {
+        movementEnabled = enabled;
+
+        if(!enabled)
+        {
+            rb2D.velocity = Vector2.zero;
+            CheckMovingAnimation();
+        }
+    }
 
     private void CheckMovingAnimation()
     {

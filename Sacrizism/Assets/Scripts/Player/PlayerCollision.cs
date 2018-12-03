@@ -9,7 +9,7 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag(Tags.EnemyTag))
+        if(collision.collider.CompareTag(Tags.EnemyTag) || collision.collider.CompareTag(Tags.BossTag))
         {
             character.TakeDamage(1);
             ShakeScreenOnDamage();

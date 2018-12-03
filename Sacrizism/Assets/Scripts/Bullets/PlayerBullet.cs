@@ -8,10 +8,10 @@ public class PlayerBullet : Bullet
     {
         if(collision.CompareTag(Tags.ObstacleTag))
         {      
-            if(!DoesPierce())
-            {
+            //if(!DoesPierce())
+            //{
                 Destroy();
-            }
+            //}
         }
 
         if (collision.CompareTag(Tags.EnemyTag))
@@ -22,6 +22,15 @@ public class PlayerBullet : Bullet
             {
                 Destroy();
             }
+        }
+
+        if (collision.CompareTag(Tags.BossEyesTag))
+        {
+            collision.GetComponent<BossEyes>().TakeDamage(damage);
+
+            Destroy();
+
+            GameManager.instance.cameraMovement.Shake(2f, 1.5f);
         }
     }
 }

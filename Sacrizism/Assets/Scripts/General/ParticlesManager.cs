@@ -16,4 +16,9 @@ public class ParticlesManager : MonoBehaviour
     {
         Instantiate(deathParticlePrefab, atTransform.position, Quaternion.identity);
     }
+
+    public void SpawnDeathParticle(Vector3 atPosition)
+    {
+        Instantiate(deathParticlePrefab, atPosition, Quaternion.identity);
+    }
 }

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    private const float baseIntensity = 0.1f;
+    private readonly Vector2 baseIntensity = new Vector2(0.1f, 0.1f);
     private const float baseDuration = 0.1f;
+
+    public bool isFollowing = true;
     
     public Transform mainCam;
 
@@ -19,6 +21,11 @@ public class CameraMovement : MonoBehaviour
 
     private Transform player;
 
+    private bool movingTowardsTarget = false;
+    private Vector3 currentTargetPosition;
+    private float moveTowardsTargetSmoothTime = 0.5f;
+    private Vector3 moveTowardsTargetRefVelocity;
+
     private void Awake()
     {
         player = GameManager.instance.player;
@@ -26,10 +33,25 @@ public class CameraMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(player)
+        if(player && isFollowing)
         {
             transform.position = Vector3.SmoothDamp(transform.position, player.position + camToPlayerOffset, ref followRefVelocity, followSmoothTime);
         }
+        else if(movingTowardsTarget)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, currentTargetPosition + camToPlayerOffset, ref moveTowardsTargetRefVelocity, moveTowardsTargetSmoothTime);
+
+            if(Vector3.Distance(currentTargetPosition, transform.position) < 0.01f)
+            {
+                movingTowardsTarget = false;
+            }
+        }            
+    }
+
+    public void MoveToTargetPosition(Vector3 position)
+    {
+        movingTowardsTarget = true;
+        currentTargetPosition = position;
     }
 
     public void Shake(float intensityMultiplier = 1f, float durationMultiplier = 1f)
@@ -39,7 +61,14 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(ShakeSequence(baseIntensity * intensityMultiplier, baseDuration * durationMultiplier));
     }
 
-    private IEnumerator ShakeSequence(float intensity, float duration)
+    public void Shake(Vector2 intensity, float intensityMultiplier = 1f, float durationMultiplier = 1f)
+    {
+        StopAllCoroutines();
+
+        StartCoroutine(ShakeSequence(intensity * intensityMultiplier, baseDuration * durationMultiplier));
+    }
+
+    private IEnumerator ShakeSequence(Vector2 intensity, float duration)
     {
         float durationPassed = 0f;
         Vector3 currentTarget = Vector3.zero;
@@ -53,8 +82,8 @@ public class CameraMovement : MonoBehaviour
                 break;
             }
 
-            currentTarget.x = Random.Range(-intensity, intensity);
-            currentTarget.y = Random.Range(-intensity, intensity);
+            currentTarget.x = Random.Range(-intensity.x, intensity.x);
+            currentTarget.y = Random.Range(-intensity.y, intensity.y);
 
             mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, currentTarget, ref shakeRefVelocity, shakeSmoothTime);
 

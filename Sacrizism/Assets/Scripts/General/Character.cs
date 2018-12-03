@@ -60,6 +60,7 @@ public class Character : MonoBehaviour
         if(gameObject.CompareTag(Tags.PlayerTag))
         {
             gameObject.SetActive(false);
+            GameManager.instance.particlesManager.SpawnDeathParticle(transform);
             GameManager.instance.OnDeath();
         }
         else

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerPowerUps : MonoBehaviour
 {
+    private const float onceChance = 0.1f;
+    private List<PowerUpOnceType> onceTypesUsed = new List<PowerUpOnceType>();
+    private static List<PowerUpOnceType> savedOnceTypesUsed = new List<PowerUpOnceType>();
+
+    public int powerUpsCollected = 0;
+
     public const int healthGain = 1;
     public const int damageGain = 1;
     public const float moveSpeedGain = 0.5f;
@@ -22,12 +28,63 @@ public class PlayerPowerUps : MonoBehaviour
     public int bonusMultishot = 0;
     public int bonusPierce = 0;
 
+    public static int savedBonusHealth = 0;
+    public static int savedBonusDamage = 0;
+    public static float savedBonusMoveSpeed = 0f;
+    public static float savedBonusReloadTime = 0f;
+    public static float savedBonusBulletSize = 0f;
+    public static float savedBonusBulletSpeed = 0f;
+    public static int savedBonusMultishot = 0;
+    public static int savedBonusPierce = 0;
+
+    public GameObject hat;
+
     public void OnPowerUpPickedUp()
     {
+        if(powerUpsCollected < 3)
+        {
+            PickOrdinaryPowerUp();
+        }
+        else
+        {
+            if (Random.Range(0f, 1f) < onceChance)
+            {
+                PickOncePowerUp();
+            }
+            else
+            {
+                PickOrdinaryPowerUp();
+            }
+        }
+    }
+
+    private void PickOrdinaryPowerUp()
+    {
         PowerUpType powerUpType = GetRandomPowerUpType();
-        GameManager.instance.uiManager.OnPowerUpPickedUp(powerUpType.ToString());
+
+        string text = "!!! " + powerUpType.ToString() + " !!!";
+        GameManager.instance.uiManager.OnPowerUpPickedUp(text);
 
         ApplyPowerUp(powerUpType);
+
+        powerUpsCollected++;
+    }
+
+    private void PickOncePowerUp()
+    {
+        PowerUpOnceType powerUpType = GetRandomAvailablePowerUpOnceType();
+
+        if (powerUpType == PowerUpOnceType.Unavailable)
+        {
+            PickOrdinaryPowerUp();
+            return;
+        }
+
+        string text = "!!! " + powerUpType.ToString() + " !!!";
+        GameManager.instance.uiManager.OnPowerUpPickedUp(text);
+        onceTypesUsed.Add(powerUpType);
+
+        ApplyPowerUpOnce(powerUpType);
     }
 
     private void ApplyPowerUp(PowerUpType powerUpType)
@@ -70,6 +127,18 @@ public class PlayerPowerUps : MonoBehaviour
         }
     }
 
+    private void ApplyPowerUpOnce(PowerUpOnceType powerUpType)
+    {
+        if(powerUpType == PowerUpOnceType.AwesomeHat)
+        {
+            hat.SetActive(true);
+        }
+        else
+        {
+            GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+        }
+    }
+
     public PowerUpType GetRandomPowerUpType()
     {
         var values = System.Enum.GetValues(typeof(PowerUpType));
@@ -79,7 +148,86 @@ public class PlayerPowerUps : MonoBehaviour
     public PowerUpOnceType GetRandomPowerUpOnceType()
     {
         var values = System.Enum.GetValues(typeof(PowerUpOnceType));
-        return (PowerUpOnceType)values.GetValue(Random.Range(0, values.Length));
+        return (PowerUpOnceType)values.GetValue(Random.Range(0, values.Length - 1));
+    }
+
+    public PowerUpOnceType GetRandomAvailablePowerUpOnceType()
+    {
+        PowerUpOnceType powerUpOnceType = GetRandomPowerUpOnceType();
+
+        if(onceTypesUsed != null && onceTypesUsed.Count > 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (onceTypesUsed.Contains(powerUpOnceType))
+                {
+                    powerUpOnceType = GetRandomPowerUpOnceType();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        if (onceTypesUsed.Contains(powerUpOnceType))
+        {
+            powerUpOnceType = PowerUpOnceType.Unavailable;
+        }
+
+        return powerUpOnceType;
+    }
+
+    public void SavePowerUps()
+    {
+        savedBonusHealth = bonusHealth;
+        savedBonusDamage = bonusDamage ;
+        savedBonusMoveSpeed = bonusMoveSpeed;
+        savedBonusReloadTime = bonusReloadTime;
+        savedBonusBulletSize = bonusBulletSize;
+        savedBonusBulletSpeed = bonusBulletSpeed;
+        savedBonusMultishot = bonusMultishot;
+        savedBonusPierce = bonusPierce;
+
+        savedOnceTypesUsed = new List<PowerUpOnceType>(onceTypesUsed);
+    }
+
+    public IEnumerator RestorePowerUps()
+    {
+        yield return null;
+
+        bonusHealth = savedBonusHealth;
+        bonusDamage = savedBonusDamage;
+        bonusMoveSpeed = savedBonusMoveSpeed;
+        bonusReloadTime = savedBonusReloadTime;
+        bonusBulletSize = savedBonusBulletSize;
+        bonusBulletSpeed = savedBonusBulletSpeed;
+        bonusMultishot = savedBonusMultishot;
+        bonusPierce = savedBonusPierce;
+
+        GetComponent<Character>().maxHP += bonusHealth;
+        GetComponent<Character>().Heal(100);
+
+        onceTypesUsed = new List<PowerUpOnceType>(savedOnceTypesUsed);
+
+        if(onceTypesUsed != null && onceTypesUsed.Count > 0)
+        {
+            foreach(PowerUpOnceType powerUpOnceType in onceTypesUsed)
+            {
+                ApplyPowerUpOnce(powerUpOnceType);
+            }
+        }
+
+        savedOnceTypesUsed.Clear();
+
+        savedBonusHealth = 0;
+        savedBonusDamage = 0;
+        savedBonusMoveSpeed = 0f;
+        savedBonusReloadTime = 0f;
+        savedBonusBulletSize = 0f;
+        savedBonusBulletSpeed = 0f;
+        savedBonusMultishot = 0;
+        savedBonusPierce = 0;
     }
 }
 
@@ -100,5 +248,8 @@ public enum PowerUpOnceType
     TunnelVision,
     Psychedelic,
     InBloom,
-    CoolHat
+    Noir,
+    Film,
+    AwesomeHat,
+    Unavailable
 }

@@ -52,13 +52,17 @@ public class RunnerEnemy : Enemy
         if(level == 1)
         {
             moveSpeed *= 1.5f;
-            character.SetMaxHP(5);
+            animator.speed *= 1.5f;
+            shadowAnimator.speed *= 1.5f;
+            character.SetMaxHP(6);
         }
 
         if(level == 2)
         {
             moveSpeed *= 2f;
-            character.SetMaxHP(8);
+            animator.speed *= 2f;
+            shadowAnimator.speed *= 2f;
+            character.SetMaxHP(9);
         }
     }
 }
