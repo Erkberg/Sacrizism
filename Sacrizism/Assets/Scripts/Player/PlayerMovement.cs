@@ -27,6 +27,17 @@ public class PlayerMovement : MonoBehaviour
         }
 	}
 
+    public void EnableMovement(bool enabled)
+    {
+        movementEnabled = enabled;
+
+        if(!enabled)
+        {
+            rb2D.velocity = Vector2.zero;
+            CheckMovingAnimation();
+        }
+    }
+
     private void CheckMovingAnimation()
     {
         if (rb2D.velocity.sqrMagnitude < 1f)

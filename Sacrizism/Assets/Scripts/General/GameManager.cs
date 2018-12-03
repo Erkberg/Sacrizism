@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public EnemyManager enemyManager;
     public PostProcessingManager postProcessingManager;
     public ParticlesManager particlesManager;
+    public AudioManager audioManager;
     public CameraMovement cameraMovement;
     public Transform player;
     public Transform bossCollidersPrefab;
@@ -52,7 +53,16 @@ public class GameManager : MonoBehaviour
         currentSacriBarAmount = sacriBarMax / 2f;
         worldManager.CreateWorld();
         enemyManager.CreateEnemies();
+        SetPlayerActive(false);
+
+        StartCoroutine(uiManager.PlayIntro());
+    }
+
+    public void OnIntroEnded()
+    {
         gameState = GameState.Level;
+        uiManager.DisplayTutorial();
+        SetPlayerActive(true);
     }
 
     private void Update()
@@ -92,25 +102,25 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BossAppearSequence()
     {
-        Instantiate(bossCollidersPrefab, player.position + bossCameraOffset, Quaternion.identity);
-        
-        player.GetComponent<PlayerMovement>().movementEnabled = false;
-        player.GetComponent<PlayerCombat>().shootingEnabled = false;
+        Vector3 playerPosition = player.position;
+        Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
+
+        SetPlayerActive(false);
 
         cameraMovement.isFollowing = false;
-        cameraMovement.MoveToTargetPosition(player.position + bossCameraOffset);
+        cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 
         yield return new WaitForSeconds(1f);
 
-        boss = Instantiate(bossPrefab, player.position + bossOffset * 3f, Quaternion.identity);
+        boss = Instantiate(bossPrefab, playerPosition + bossOffset * 3f, Quaternion.identity);
 
-        while(boss.position.y > player.position.y + bossOffset.y)
+        while(boss.position.y > playerPosition.y + bossOffset.y)
         {
             boss.transform.position -= new Vector3(0f, 10f, 0f) * Time.deltaTime;
             yield return null;
         }
 
-        boss.transform.position = player.position + bossOffset;
+        boss.transform.position = playerPosition + bossOffset;
 
         uiManager.OnBossStarted();
 
@@ -122,10 +132,15 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        player.GetComponent<PlayerMovement>().movementEnabled = true;
-        player.GetComponent<PlayerCombat>().shootingEnabled = true;
+        SetPlayerActive(true);
 
         boss.GetComponent<BossEnemy>().bossEyes.StartLoop();
+    }
+
+    private void SetPlayerActive(bool active)
+    {
+        player.GetComponent<PlayerMovement>().EnableMovement(active);
+        player.GetComponent<PlayerCombat>().shootingEnabled = active;
     }
 
     public void OnDeath()

@@ -13,11 +13,12 @@ public class UIManager : MonoBehaviour
     public GameObject tutorial;
     public GameObject bossRedX;
 
+    public GameObject blackBackground;
+    public UIHolder introHolder;
+
     private void Awake()
     {
         powerUp.SetActive(false);
-
-        OnIntroEnded();
     }
 
     public void SetSacriBarFillAmount(float amount)
@@ -39,7 +40,7 @@ public class UIManager : MonoBehaviour
         powerUp.SetActive(false);
     }
 
-    public void OnIntroEnded()
+    public void DisplayTutorial()
     {
         StartCoroutine(TutorialSequence());
     }
@@ -54,5 +55,16 @@ public class UIManager : MonoBehaviour
     public void OnBossStarted()
     {
         bossRedX.SetActive(true);
+    }
+
+    public IEnumerator PlayIntro()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(introHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        introHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+
+        GameManager.instance.OnIntroEnded();
     }
 }
