@@ -38,7 +38,22 @@ public class Character : MonoBehaviour
             Die();
         }
 
-        GameManager.instance.audioManager.PlayHurtSound();
+        if (gameObject.CompareTag(Tags.PlayerTag))
+        {
+            GameManager.instance.audioManager.PlayPlayerHurtSound();
+        }
+        else
+        {
+            if(GetComponent<Enemy>().enemyType == EnemyType.Runner)
+            {
+                GameManager.instance.audioManager.PlayKachuHurtSound();
+            }
+            else
+            {
+                GameManager.instance.audioManager.PlayEnemyHurtSound();
+            }
+        }
+            
 
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }

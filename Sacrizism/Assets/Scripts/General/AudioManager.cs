@@ -15,7 +15,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip wamsSound;
     public AudioClip wamsShortSound;
 
-    public AudioClip[] hurtSounds;
+    public AudioClip[] playerHurtSounds;
+    public AudioClip[] enemyHurtSounds;
     public AudioClip[] kachuHurtSounds;
 
     public void PlayMusic()
@@ -55,17 +56,25 @@ public class AudioManager : MonoBehaviour
 
     public void PlayKachuHurtSound()
     {
-        if (hurtSounds != null && hurtSounds.Length > 0)
+        if (kachuHurtSounds != null && kachuHurtSounds.Length > 0)
         {
             audioSourceSounds.PlayOneShot(kachuHurtSounds[Random.Range(0, kachuHurtSounds.Length)]);
         }
     }
 
-    public void PlayHurtSound()
+    public void PlayPlayerHurtSound()
     {
-        if(hurtSounds != null && hurtSounds.Length > 0)
+        if(playerHurtSounds != null && playerHurtSounds.Length > 0)
         {
-            audioSourceSounds.PlayOneShot(hurtSounds[Random.Range(0, hurtSounds.Length)]);
+            audioSourceSounds.PlayOneShot(playerHurtSounds[Random.Range(0, playerHurtSounds.Length)]);
+        }
+    }
+
+    public void PlayEnemyHurtSound()
+    {
+        if (enemyHurtSounds != null && enemyHurtSounds.Length > 0)
+        {
+            audioSourceSounds.PlayOneShot(enemyHurtSounds[Random.Range(0, enemyHurtSounds.Length)]);
         }
     }
 }
