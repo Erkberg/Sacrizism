@@ -10,9 +10,13 @@ public class UIManager : MonoBehaviour
     public GameObject powerUp;
     public Text powerUpText;
 
+    public GameObject tutorial;
+
     private void Awake()
     {
         powerUp.SetActive(false);
+
+        OnIntroEnded();
     }
 
     public void SetSacriBarFillAmount(float amount)
@@ -32,5 +36,17 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         powerUp.SetActive(false);
+    }
+
+    public void OnIntroEnded()
+    {
+        StartCoroutine(TutorialSequence());
+    }
+
+    private IEnumerator TutorialSequence()
+    {
+        tutorial.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        tutorial.SetActive(false);
     }
 }
