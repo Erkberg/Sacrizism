@@ -252,8 +252,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0.02, y: -0.3}
+  m_Size: {x: 0.45, y: 1}
   m_Direction: 0
 --- !u!95 &95130639356933022
 Animator:
@@ -318,6 +318,7 @@ MonoBehaviour:
   shadowAnimator: {fileID: 95130639356933022}
   playerPowerUps: {fileID: 114357334069887696}
   moveSpeed: 4
+  movementEnabled: 1
 --- !u!114 &114357334069887696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -329,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031e8302c24ff4e4282f8680ce47d522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpsCollected: 0
   bonusHealth: 0
   bonusDamage: 0
   bonusMoveSpeed: 0
@@ -383,6 +385,7 @@ MonoBehaviour:
   shootingThreshold: 0.1
   changeFacing: {fileID: 114094883861065172}
   playerPowerUps: {fileID: 114357334069887696}
+  shootingEnabled: 1
 --- !u!114 &114485477267953988
 MonoBehaviour:
   m_ObjectHideFlags: 1

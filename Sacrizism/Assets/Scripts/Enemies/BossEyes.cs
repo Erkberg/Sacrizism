@@ -66,7 +66,7 @@ public class BossEyes : MonoBehaviour
     {
         float size = 1f;
         float speed = 4f;
-        float waitTime = 1f;
+        float waitTime = 1.1f;
 
         // waves
         for (int i = 0; i < 8; i++)
@@ -74,7 +74,7 @@ public class BossEyes : MonoBehaviour
             // bullets
             for(int j = -5; j < 5; j++)
             {
-                float angle = j * 20f + Random.Range(-8f, 8f);
+                float angle = j * 22f + Random.Range(-8f, 8f);
 
                 SpawnBulletAtAngle(angle, size, speed, leftEye);
                 SpawnBulletAtAngle(angle, size, speed, rightEye);
@@ -91,7 +91,7 @@ public class BossEyes : MonoBehaviour
     private IEnumerator ShotSequenceSmall()
     {
         float size = 0.2f;
-        float speed = 8f;
+        float speed = 7.5f;
         float waitTime = 0.1f;
 
         // waves
@@ -112,7 +112,7 @@ public class BossEyes : MonoBehaviour
     {
         float size = 0.33f;
         float speed = 8f;
-        float waitTime = 0.02f;
+        float waitTime = 0.025f;
 
         // waves
         for (int i = 0; i < 8; i++)

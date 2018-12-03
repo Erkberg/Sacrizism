@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
             enemyManager.CreateEnemies();
 
             gameState = GameState.Level;
+            audioManager.PlayMusic();
         }
         else
         {
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Level;
         uiManager.DisplayTutorial();
         SetPlayerActive(true);
+        audioManager.PlayMusic();
     }
 
     private void Update()
@@ -142,7 +144,7 @@ public class GameManager : MonoBehaviour
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 
         yield return new WaitForSeconds(1f);
-
+        audioManager.PlayBossArrivalSound();
         boss = Instantiate(bossPrefab, playerPosition + bossOffset * 3f, Quaternion.identity);
 
         while(boss.position.y > playerPosition.y + bossOffset.y)
@@ -159,7 +161,7 @@ public class GameManager : MonoBehaviour
         enemyManager.DestroyAllEnemies();
 
         cameraMovement.Shake(new Vector2(0f, 2f), 1f, 4f);
-        
+        audioManager.PlayWamsSound();
 
         yield return new WaitForSeconds(1f);
 

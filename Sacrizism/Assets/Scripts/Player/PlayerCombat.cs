@@ -62,6 +62,7 @@ public class PlayerCombat : MonoBehaviour
     private void Shoot(Vector2 direction)
     {
         isReloading = true;
+        GameManager.instance.audioManager.PlayShootSound();
 
         GameManager.instance.cameraMovement.Shake();
 
