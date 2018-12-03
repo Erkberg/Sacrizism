@@ -26,9 +26,12 @@ public class CameraMovement : MonoBehaviour
     private float moveTowardsTargetSmoothTime = 0.5f;
     private Vector3 moveTowardsTargetRefVelocity;
 
+    private float initialZoom;
+
     private void Awake()
     {
         player = GameManager.instance.player;
+        initialZoom = mainCam.GetComponent<Camera>().orthographicSize;
     }
 
     private void FixedUpdate()
@@ -91,5 +94,27 @@ public class CameraMovement : MonoBehaviour
         }
 
         mainCam.transform.localPosition = Vector3.zero;
+    }
+
+    public IEnumerator ShortZoomOut()
+    {
+        Camera mainCamCamera = mainCam.GetComponent<Camera>();
+        float offset = 0.5f;
+        float remainingPercentage = 1f;
+
+        while (mainCamCamera.orthographicSize < initialZoom + offset * 0.9f)
+        {
+            remainingPercentage = (initialZoom + offset - mainCamCamera.orthographicSize) / offset;
+            mainCamCamera.orthographicSize += Time.deltaTime * 4f * remainingPercentage;
+            yield return null;
+        }
+
+        while(mainCamCamera.orthographicSize > initialZoom)
+        {
+            mainCamCamera.orthographicSize -= Time.deltaTime;
+            yield return null;
+        }
+
+        mainCamCamera.orthographicSize = initialZoom;
     }
 }

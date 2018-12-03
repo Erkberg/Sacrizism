@@ -8,6 +8,12 @@ public class Bullet : MonoBehaviour
     public int damage = 1;
     public int pierce = 0;
 
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(0.2f);
+        GetComponent<SpriteRenderer>().sortingOrder = -1;
+    }
+
     public void SetDirection(Vector2 direction)
     {
         GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
