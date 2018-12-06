@@ -126,15 +126,15 @@ public class UIManager : MonoBehaviour
         powerUp.SetActive(false);
     }
 
-    public void DisplayTutorial()
+    public void DisplayTutorial(float displayTime)
     {
-        StartCoroutine(TutorialSequence());
+        StartCoroutine(TutorialSequence(displayTime));
     }
 
-    private IEnumerator TutorialSequence()
+    private IEnumerator TutorialSequence(float displayTime)
     {
         tutorial.SetActive(true);
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(displayTime);
         tutorial.SetActive(false);
     }
 

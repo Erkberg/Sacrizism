@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static bool introPlayed = false;
     public static bool restartFromBoss = false;
 
     public GameState gameState = GameState.Intro;
@@ -64,17 +65,33 @@ public class GameManager : MonoBehaviour
             enemyManager.CreateEnemies();
             SetPlayerActive(false);
 
-            StartCoroutine(uiManager.PlayIntro());
+            if(introPlayed)
+            {
+                OnIntroEnded();
+            }
+            else
+            {
+                introPlayed = true;
+                StartCoroutine(uiManager.PlayIntro());
+            }            
         }
     }
 
     public void OnIntroEnded()
     {
-        gameState = GameState.Level;
-        uiManager.DisplayTutorial();
+        gameState = GameState.Level;        
         SetPlayerActive(true);
         audioManager.PlayMusic();
         audioManager.PlayAtmo();
+
+        if(introPlayed)
+        {
+            uiManager.DisplayTutorial(4f);
+        }
+        else
+        {
+            uiManager.DisplayTutorial(8f);
+        }
     }
 
     private void Update()
