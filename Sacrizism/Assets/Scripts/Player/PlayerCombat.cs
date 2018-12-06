@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
                 CheckShoot();
             }            
         }
-
+        //Debug.DrawRay(transform.position, new Vector2(Input.GetAxis(InputConsts.HorizontalAimingAxis), Input.GetAxis(InputConsts.VerticalAimingAxis)));
         CheckFacing();
 	}
 
