@@ -134,9 +134,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSacriBarEmpty()
     {
-        gameState = GameState.Boss;
-        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsCollected;
-        bossCurrentHealth = bossMaxHealth;
+        gameState = GameState.Boss;        
         uiManager.SetSacriBarFillAmount(0f);
         StartCoroutine(BossAppearSequence());
     }
@@ -171,6 +169,9 @@ public class GameManager : MonoBehaviour
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 
         yield return new WaitForSeconds(1f);
+        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsCollected;
+        bossCurrentHealth = bossMaxHealth;
+
         audioManager.PlayBossArrivalSound();
         boss = Instantiate(bossPrefab, playerPosition + bossOffset * 3f, Quaternion.identity);
 
