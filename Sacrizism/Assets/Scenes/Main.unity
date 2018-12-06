@@ -8610,11 +8610,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5a5f322fb69ce3f449fd81075e0014d8, type: 3}
   - {fileID: 8300000, guid: 90fc67e1574893f4ba3930cd68894637, type: 3}
   - {fileID: 8300000, guid: 669efe736e6a76946b0f7b8d1a7b8c11, type: 3}
-  - {fileID: 8300000, guid: e54916c90d513f949885b61c4e92b5db, type: 3}
   enemyHurtSounds:
   - {fileID: 8300000, guid: 92493b3bdce4b5c4783f44b1ead7ef7d, type: 3}
   - {fileID: 8300000, guid: f67faa00bff5b20469239cfb28ac8b9e, type: 3}
   - {fileID: 8300000, guid: 05dfb3a4522a11543b79837b0aa94574, type: 3}
+  - {fileID: 8300000, guid: 8eab42f9603cfa5468379daf01c41129, type: 3}
   kachuHurtSounds:
   - {fileID: 8300000, guid: 55d6f5b8b84afa04a846fee49049ee87, type: 3}
   - {fileID: 8300000, guid: 367fe4e2f43a4804597f59b140a22811, type: 3}
