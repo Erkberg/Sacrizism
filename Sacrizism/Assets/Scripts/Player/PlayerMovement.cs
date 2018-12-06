@@ -21,6 +21,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 movement = new Vector2(Input.GetAxis(InputConsts.HorizontalMovementAxis), Input.GetAxis(InputConsts.VerticalMovementAxis));
 
+            while(movement.magnitude > 1f)
+            {
+                movement *= 0.99f;
+            }
+
+            //Debug.Log(movement.magnitude);
+
             rb2D.velocity = movement * (moveSpeed + playerPowerUps.bonusMoveSpeed);
 
             CheckMovingAnimation();
