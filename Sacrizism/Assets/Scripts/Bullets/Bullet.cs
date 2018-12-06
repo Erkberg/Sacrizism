@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
         if(GameManager.instance.gameState == GameState.Level)
         {
             yield return new WaitForSeconds(0.2f);
-            GetComponent<SpriteRenderer>().sortingOrder = -1;
+            GetComponent<SpriteRenderer>().sortingOrder = -9;
         }
     }
 
