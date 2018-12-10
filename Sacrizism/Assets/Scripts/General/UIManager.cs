@@ -166,6 +166,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator PlayBossDeath()
     {
+        yield return new WaitForSeconds(1f);
         blackBackground.SetActive(true);
         selectionID = 0;
         SetSelectionColors();

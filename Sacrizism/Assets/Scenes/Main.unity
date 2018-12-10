@@ -6893,6 +6893,8 @@ MonoBehaviour:
     type: 2}
   deathParticlePrefab: {fileID: 4331152645011922, guid: f853219ff0c2d1f4f92cb4cd02968f81,
     type: 2}
+  bloodPrefabs:
+  - {fileID: 4245609665929242, guid: 0631f9045000a044f8511ecb8501f883, type: 2}
 --- !u!114 &695098928
 MonoBehaviour:
   m_ObjectHideFlags: 0

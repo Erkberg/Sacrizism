@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     public Transform playerBullet;
     public Transform bulletsHolder;
+    public Transform crosshair;
 
     public float reloadTime = 0.33f;
     public float shootingThreshold = 0.1f;
@@ -20,6 +21,8 @@ public class PlayerCombat : MonoBehaviour
     public bool hasRecoil = false;
 
     public bool shootingEnabled = true;
+
+    private bool currentlyUsingMouse = false;
 	
 	// Update is called once per frame
 	void Update ()
