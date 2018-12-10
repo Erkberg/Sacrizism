@@ -136,7 +136,14 @@ public class PlayerPowerUps : MonoBehaviour
         }
         else
         {
-            GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+            if (powerUpType == PowerUpOnceType.Recoil)
+            {
+                GetComponent<PlayerCombat>().hasRecoil = true;
+            }
+            else
+            {
+                GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+            }
         }
     }
 
@@ -255,5 +262,7 @@ public enum PowerUpOnceType
     Noir,
     Film,
     AwesomeHat,
+    Recoil,
+    Fisheye,
     Unavailable
 }

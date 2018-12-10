@@ -9,12 +9,15 @@ public class PlayerCombat : MonoBehaviour
 
     public float reloadTime = 0.33f;
     public float shootingThreshold = 0.1f;
+    public float recoilAmount = 0.1f;
 
     public ChangeFacing changeFacing;
     public PlayerPowerUps playerPowerUps;
 
     private float reloadTimePassed = 0f;
     private bool isReloading = false;
+
+    public bool hasRecoil = false;
 
     public bool shootingEnabled = true;
 	
@@ -79,6 +82,11 @@ public class PlayerCombat : MonoBehaviour
                 Vector2 newDirection = Quaternion.Euler(0, 0, degrees) * direction;
                 SpawnBullet(newDirection);
             }
+        }
+
+        if (hasRecoil)
+        {
+            transform.position -= (Vector3)direction * recoilAmount;
         }
     }
 

@@ -10,6 +10,7 @@ public class PostProcessingManager : MonoBehaviour
     public PostProcessVolume volumeGrain;
     public PostProcessVolume volumeVignette;
     public PostProcessVolume volumeColorGrading;
+    public PostProcessVolume volumeLensDistortion;
 
     private void Awake()
     {
@@ -17,6 +18,8 @@ public class PostProcessingManager : MonoBehaviour
         volumeBloom.enabled = false;
         volumeVignette.enabled = false;
         volumeGrain.enabled = false;
+        volumeColorGrading.enabled = false;
+        volumeLensDistortion.enabled = false;
     }
 
     public void EnableVolume(PowerUpOnceType powerUp)
@@ -41,6 +44,10 @@ public class PostProcessingManager : MonoBehaviour
 
             case PowerUpOnceType.TunnelVision:
                 volumeVignette.enabled = true;
+                break;
+
+            case PowerUpOnceType.Fisheye:
+                volumeLensDistortion.enabled = true;
                 break;
         }
     }

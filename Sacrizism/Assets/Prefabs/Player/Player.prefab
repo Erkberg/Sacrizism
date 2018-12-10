@@ -383,8 +383,10 @@ MonoBehaviour:
   bulletsHolder: {fileID: 0}
   reloadTime: 0.5
   shootingThreshold: 0.1
+  recoilAmount: 0.167
   changeFacing: {fileID: 114094883861065172}
   playerPowerUps: {fileID: 114357334069887696}
+  hasRecoil: 0
   shootingEnabled: 1
 --- !u!114 &114485477267953988
 MonoBehaviour:
