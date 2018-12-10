@@ -10,7 +10,7 @@ public class EnemyGroup : MonoBehaviour
 
     private bool isAngered = false;
 
-    private const float spawnRadius = 3f;
+    private const float spawnRadius = 2.5f;
 
     public void CreateRandomGroup()
     {
@@ -125,6 +125,20 @@ public class EnemyGroup : MonoBehaviour
         else
         {
             return (EnemyType)values.GetValue(2);
+        }
+    }
+
+    public void DestroyGroup()
+    {
+        if(enemies != null && enemies.Count > 0)
+        {
+            foreach(Enemy enemy in enemies)
+            {
+                if(enemy != null)
+                {
+                    enemy.GetComponent<Character>().Die();
+                }
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ public class PlayerPowerUps : MonoBehaviour
 
     public int powerUpsCollected = 0;
     public static int savedPowerUpsCollected = 0;
+    public int powerUpsForBossHealthCollected = 0;
+    public static int savedPowerUpsForBossHealthCollected = 0;
 
     public const int healthGain = 1;
     public const int damageGain = 1;
@@ -69,6 +71,12 @@ public class PlayerPowerUps : MonoBehaviour
         ApplyPowerUp(powerUpType);
 
         powerUpsCollected++;
+
+        if(powerUpType == PowerUpType.Damage || powerUpType == PowerUpType.Health || powerUpType == PowerUpType.MoveSpeed 
+            || powerUpType == PowerUpType.Multishot || powerUpType == PowerUpType.ReloadTime)
+        {
+            powerUpsForBossHealthCollected++;
+        }
     }
 
     private void PickOncePowerUp()
@@ -197,6 +205,7 @@ public class PlayerPowerUps : MonoBehaviour
         savedBonusMultishot = bonusMultishot;
         savedBonusPierce = bonusPierce;
         savedPowerUpsCollected = powerUpsCollected;
+        savedPowerUpsForBossHealthCollected = powerUpsForBossHealthCollected;
 
         savedOnceTypesUsed = new List<PowerUpOnceType>(onceTypesUsed);
     }
@@ -214,6 +223,7 @@ public class PlayerPowerUps : MonoBehaviour
         bonusMultishot = savedBonusMultishot;
         bonusPierce = savedBonusPierce;
         powerUpsCollected = savedPowerUpsCollected;
+        powerUpsForBossHealthCollected = savedPowerUpsForBossHealthCollected;
 
         GetComponent<Character>().maxHP += bonusHealth;
         GetComponent<Character>().Heal(100);

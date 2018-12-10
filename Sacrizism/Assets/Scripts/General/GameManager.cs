@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public Transform powerUpPrefab;
 
     private const float sacriBarMax = 100f;
-    private const float sacriBarDecline = 0.75f;
+    private const float sacriBarDecline = 0.666f;
     private float currentSacriBarAmount;
 
     private const int bossBaseHealth = 100;
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
 
         WantedCheat();
         // TODO: Remove before final build!!!
-        //Cheats();
+        Cheats();
     }
 
     public void OnBossTakeDamage(int amount)
@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 
         yield return new WaitForSeconds(1f);
-        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsCollected;
+        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsForBossHealthCollected;
         bossCurrentHealth = bossMaxHealth;
 
         audioManager.PlayBossArrivalSound();

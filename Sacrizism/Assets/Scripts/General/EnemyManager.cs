@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public const int amountOfEnemyGroups = 32;
-    private const float minGroupDistance = 6f;
+    public const int amountOfEnemyGroups = 48;
+    private const float minGroupDistance = 6.66f;
 
     public Transform enemiesHolder;
     public Transform enemyGroupPrefab;
@@ -24,17 +24,24 @@ public class EnemyManager : MonoBehaviour
         {
             Vector3 position = Vector3.zero;
             int counter = 0;
+            bool noMoreSpace = false;
 
             while(!IsPositionOkay(position))
             {
                 position = GameManager.instance.worldManager.GetRandomWorldPosition();
 
                 counter++;
-                if(counter > 10)
+                if(counter > 32)
                 {
-                    Debug.Log("no more space in hell...");
+                    Debug.Log("no more space in hell... at " + i);
+                    noMoreSpace = true;
                     break;
                 }
+            }
+
+            if(noMoreSpace)
+            {
+                break;
             }
 
             Transform enemyGroup = Instantiate(enemyGroupPrefab, position, Quaternion.identity, enemiesHolder);
@@ -47,7 +54,7 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < enemyGroups.Count; i++)
         {
-            Destroy(enemyGroups[i].gameObject);
+            enemyGroups[i].GetComponent<EnemyGroup>().DestroyGroup();
         }
     }
 
