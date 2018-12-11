@@ -19,6 +19,7 @@ public class PlayerCombat : MonoBehaviour
     private bool isReloading = false;
 
     public bool hasRecoil = false;
+    public bool hasWobble = false;
 
     public bool shootingEnabled = true;
 
@@ -168,6 +169,7 @@ public class PlayerCombat : MonoBehaviour
         bullet.AddSize(playerPowerUps.bonusBulletSize);
         bullet.AddMoveSpeed(playerPowerUps.bonusBulletSpeed);
         bullet.AddPierce(playerPowerUps.bonusPierce);
+        bullet.SetWobbling(hasWobble);
         bullet.SetDirection(direction);
     }
 

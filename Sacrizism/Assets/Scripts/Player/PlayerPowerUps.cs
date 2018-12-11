@@ -42,6 +42,11 @@ public class PlayerPowerUps : MonoBehaviour
 
     public GameObject hat;
 
+    private void Start()
+    {
+        //ApplyPowerUpOnce(PowerUpOnceType.Wobble);
+    }
+
     public void OnPowerUpPickedUp()
     {
         if(powerUpsCollected < 3)
@@ -150,7 +155,14 @@ public class PlayerPowerUps : MonoBehaviour
             }
             else
             {
-                GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+                if (powerUpType == PowerUpOnceType.Wobble)
+                {
+                    GetComponent<PlayerCombat>().hasWobble = true;
+                }
+                else
+                {
+                    GameManager.instance.postProcessingManager.EnableVolume(powerUpType);
+                }
             }
         }
     }
@@ -274,5 +286,6 @@ public enum PowerUpOnceType
     AwesomeHat,
     Recoil,
     Fisheye,
+    Wobble,
     Unavailable
 }

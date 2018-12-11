@@ -7,6 +7,13 @@ public class Bullet : MonoBehaviour
     public float moveSpeed = 8f;
     public int damage = 1;
     public int pierce = 0;
+    public float wobbleFactor = 16f;
+
+    private bool isWobbling = false;
+    private Vector2 initialDirection;
+    private Vector2 wobbleDirection;
+    private Vector3 previousWobble = Vector3.zero;
+    private float lifeTime = 0f;
 
     private IEnumerator Start()
     {
@@ -17,9 +24,32 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(isWobbling)
+        {
+            Wobble();
+        }
+    }
+
+    private void Wobble()
+    {
+        Vector3 currentWobble = wobbleDirection * lifeTime * moveSpeed * Mathf.Sin(lifeTime * wobbleFactor) * Time.deltaTime;
+        transform.position = transform.position + currentWobble - previousWobble;
+        previousWobble = currentWobble;
+        lifeTime += Time.deltaTime;
+    }
+
+    public void SetWobbling(bool wobbling)
+    {
+        isWobbling = wobbling;
+    }
+
     public void SetDirection(Vector2 direction)
     {
-        GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
+        initialDirection = direction * moveSpeed;
+        wobbleDirection = Vector2.Perpendicular(initialDirection);
+        GetComponent<Rigidbody2D>().velocity = initialDirection;
     }
 
     public void AddDamage(int bonusDamage)
