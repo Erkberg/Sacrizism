@@ -44,7 +44,9 @@ public class Character : MonoBehaviour
         }
         else
         {
-            if(GetComponent<Enemy>().enemyType == EnemyType.Runner)
+            GameManager.instance.enemyManager.OnAttackedEnemy();
+
+            if (GetComponent<Enemy>().enemyType == EnemyType.Runner)
             {
                 GameManager.instance.audioManager.PlayKachuHurtSound();
             }

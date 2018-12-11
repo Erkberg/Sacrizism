@@ -141,6 +141,20 @@ public class EnemyGroup : MonoBehaviour
             }
         }
     }
+
+    public void RemoveConstraints()
+    {
+        if (enemies != null && enemies.Count > 0)
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    enemy.RemoveRigidbodyConstraints();
+                }
+            }
+        }
+    }
 }
 
 public enum EnemyGroupType

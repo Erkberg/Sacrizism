@@ -16,6 +16,21 @@ public class EnemyManager : MonoBehaviour
 
     private List<Transform> enemyGroups;
 
+    public bool enemiesPeaceful = true;
+
+    public void OnAttackedEnemy()
+    {
+        if(enemiesPeaceful)
+        {
+            enemiesPeaceful = false;
+
+            for (int i = 0; i < enemyGroups.Count; i++)
+            {
+                enemyGroups[i].GetComponent<EnemyGroup>().RemoveConstraints();
+            }
+        }
+    }
+
     public void CreateEnemies()
     {
         enemyGroups = new List<Transform>();

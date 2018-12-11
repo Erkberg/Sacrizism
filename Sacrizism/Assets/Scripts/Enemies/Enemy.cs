@@ -147,6 +147,11 @@ public class Enemy : MonoBehaviour
         animator.SetBool(AnimationBools.MovingBool, moving);
         shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
     }
+
+    public void RemoveRigidbodyConstraints()
+    {
+        rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
 }
 
 public enum EnemyType
