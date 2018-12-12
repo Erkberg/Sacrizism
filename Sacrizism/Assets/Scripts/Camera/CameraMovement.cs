@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
     
     public Transform mainCam;
 
-    private float followSmoothTime = 0.2f;
+    private float followSmoothTime = 0.33f;
     private Vector3 followRefVelocity;
 
     private float shakeSmoothTime = 0.05f;
