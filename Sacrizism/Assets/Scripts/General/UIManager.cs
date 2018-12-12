@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     public UIHolder bossIntroHolder;
     public UIHolder outroRegularHolder;
     public UIHolder creditsHolder;
+    public UIHolder selfSacrificeHolder;
+    public UIHolder pacifistHolder;
+    public UIHolder fullSacribarHolder;
 
     public Text restartFromBeginningText;
     public Text restartFromBossText;
@@ -180,6 +183,16 @@ public class UIManager : MonoBehaviour
         yield return StartCoroutine(outroRegularHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         outroRegularHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
+    public IEnumerator PlaySelfSacrifice()
+    {
+        yield return new WaitForSeconds(2f);
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(selfSacrificeHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        selfSacrificeHolder.gameObject.SetActive(false);
         StartCoroutine(PlayCredits());
     }
 

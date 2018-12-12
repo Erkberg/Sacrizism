@@ -211,7 +211,14 @@ public class GameManager : MonoBehaviour
 
         if(gameState == GameState.Level)
         {
-            StartCoroutine(uiManager.PlayRegularDeath());
+            if(enemyManager.enemiesPeaceful)
+            {
+                StartCoroutine(uiManager.PlaySelfSacrifice());
+            }
+            else
+            {
+                StartCoroutine(uiManager.PlayRegularDeath());
+            }            
         }
 
         if (gameState == GameState.Boss)
