@@ -7,8 +7,8 @@ public class Character : MonoBehaviour
 {
     public HPBar hpBar;
 
-    public int maxHP = 3;
-    private int currentHP;
+    public float maxHP = 3;
+    private float currentHP;
 
     public Transform healOrigin;
 
@@ -27,13 +27,13 @@ public class Character : MonoBehaviour
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         onTakeDamage.Invoke();
 
         currentHP -= amount;        
 
-        if(currentHP <= 0)
+        if(currentHP <= 0f)
         {
             Die();
         }
@@ -60,7 +60,7 @@ public class Character : MonoBehaviour
         hpBar.SetWidthPercentage((float)currentHP / maxHP);
     }
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         currentHP += amount;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float moveSpeed = 8f;
-    public int damage = 1;
+    public float damage = 1;
     public int pierce = 0;
     public float wobbleFactor = 16f;
 
@@ -52,7 +52,7 @@ public class Bullet : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = initialDirection;
     }
 
-    public void AddDamage(int bonusDamage)
+    public void AddDamage(float bonusDamage)
     {
         damage += bonusDamage;
     }
@@ -68,7 +68,7 @@ public class Bullet : MonoBehaviour
         transform.localScale = new Vector3(size, size, 1f);
     }
 
-    public void SetDamage(int newDamage)
+    public void SetDamage(float newDamage)
     {
         damage = newDamage;
     }

@@ -108,6 +108,7 @@ public class UIManager : MonoBehaviour
         StopAllCoroutines();
         powerUp.SetActive(true);
         powerUpText.text = text;
+        tutorial.SetActive(false);
         StartCoroutine(PowerUpSequence());
     }
 

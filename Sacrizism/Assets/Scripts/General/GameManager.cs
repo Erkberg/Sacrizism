@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour
 
     private const int bossBaseHealth = 100;
     private const int bossHealthGainPerPowerup = 40;
-    private int bossMaxHealth;
-    private int bossCurrentHealth;
+    private float bossMaxHealth;
+    private float bossCurrentHealth;
 
     private readonly Vector3 bossOffset = new Vector3(0f, 4.67f, 0f);
     private readonly Vector3 bossCameraOffset = new Vector3(0f, 3f, 0f);
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     {
         if(gameState == GameState.Level)
         {
-            currentSacriBarAmount -= sacriBarDecline * (1f + playerPowerUps.powerUpsCollected * 0.05f) * Time.deltaTime;
+            currentSacriBarAmount -= sacriBarDecline * (1f + playerPowerUps.powerUpsCollected * 0.055f) * Time.deltaTime;
             uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
 
             if (currentSacriBarAmount <= 0f)
@@ -118,11 +118,11 @@ public class GameManager : MonoBehaviour
         Cheats();
     }
 
-    public void OnBossTakeDamage(int amount)
+    public void OnBossTakeDamage(float amount)
     {
         bossCurrentHealth -= amount;
 
-        uiManager.SetSacriBarFillAmount(1f - ((float) bossCurrentHealth / bossMaxHealth));
+        uiManager.SetSacriBarFillAmount(1f - (bossCurrentHealth / bossMaxHealth));
 
         if(bossCurrentHealth <= 0)
         {
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         {
             yield return StartCoroutine(uiManager.PlayBossIntro());
         }
-
+        uiManager.SetSacriBarFillAmount(0f);
         cameraMovement.isFollowing = false;
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 

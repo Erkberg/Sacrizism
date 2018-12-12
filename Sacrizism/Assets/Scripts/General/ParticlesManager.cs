@@ -37,7 +37,7 @@ public class ParticlesManager : MonoBehaviour
         if(bloodPrefabs != null && bloodPrefabs.Length > 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-            Instantiate(bloodPrefabs[Random.Range(0, bloodPrefabs.Length)], position, Quaternion.identity);
+            Instantiate(bloodPrefabs[Random.Range(0, bloodPrefabs.Length)], position, rotation);
         }
     }
 }

@@ -14,7 +14,7 @@ public class PlayerPowerUps : MonoBehaviour
     public static int savedPowerUpsForBossHealthCollected = 0;
 
     public const int healthGain = 1;
-    public const int damageGain = 1;
+    public const float damageGain = 0.6f;
     public const float moveSpeedGain = 0.5f;
     public const float reloadTimeGain = 0.1f;
     public const float bulletSizeGain = 0.1f;
@@ -23,7 +23,7 @@ public class PlayerPowerUps : MonoBehaviour
     public const int pierceGain = 1;
 
     public int bonusHealth = 0;
-    public int bonusDamage = 0;
+    public float bonusDamage = 0f;
     public float bonusMoveSpeed = 0f;
     public float bonusReloadTime = 0f;
     public float bonusBulletSize = 0f;
@@ -32,7 +32,7 @@ public class PlayerPowerUps : MonoBehaviour
     public int bonusPierce = 0;
 
     public static int savedBonusHealth = 0;
-    public static int savedBonusDamage = 0;
+    public static float savedBonusDamage = 0f;
     public static float savedBonusMoveSpeed = 0f;
     public static float savedBonusReloadTime = 0f;
     public static float savedBonusBulletSize = 0f;
@@ -108,7 +108,7 @@ public class PlayerPowerUps : MonoBehaviour
             case PowerUpType.Health:
                 bonusHealth += healthGain;
                 GetComponent<Character>().maxHP += healthGain;
-                GetComponent<Character>().Heal(100);
+                GetComponent<Character>().Heal(100f);
                 break;
 
             case PowerUpType.Damage:
@@ -238,7 +238,7 @@ public class PlayerPowerUps : MonoBehaviour
         powerUpsForBossHealthCollected = savedPowerUpsForBossHealthCollected;
 
         GetComponent<Character>().maxHP += bonusHealth;
-        GetComponent<Character>().Heal(100);
+        GetComponent<Character>().Heal(100f);
 
         onceTypesUsed = new List<PowerUpOnceType>(savedOnceTypesUsed);
 

@@ -139,7 +139,7 @@ public class PlayerCombat : MonoBehaviour
         isReloading = true;
         GameManager.instance.audioManager.PlayShootSound();
 
-        GameManager.instance.cameraMovement.Shake();
+        GameManager.instance.cameraMovement.Shake(1.5f, 1.5f);
 
         SpawnBullet(direction);
 
