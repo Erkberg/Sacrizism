@@ -186,13 +186,22 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PlayCredits());
     }
 
-    public IEnumerator PlaySelfSacrifice()
+    public IEnumerator PlayOutroSelfSacrifice()
     {
         yield return new WaitForSeconds(2f);
         blackBackground.SetActive(true);
         yield return StartCoroutine(selfSacrificeHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         selfSacrificeHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
+    public IEnumerator PlayOutroSacribarFull()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(fullSacribarHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        fullSacribarHolder.gameObject.SetActive(false);
         StartCoroutine(PlayCredits());
     }
 

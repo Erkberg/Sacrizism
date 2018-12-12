@@ -106,6 +106,11 @@ public class GameManager : MonoBehaviour
             {
                 OnSacriBarEmpty();
             }
+
+            if(currentSacriBarAmount >= sacriBarMax)
+            {
+                OnSacriBarFull();
+            }
         }
 
         WantedCheat();
@@ -138,6 +143,12 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Boss;        
         uiManager.SetSacriBarFillAmount(0f);
         StartCoroutine(BossAppearSequence());
+    }
+
+    private void OnSacriBarFull()
+    {
+        gameState = GameState.Sequence;
+        StartCoroutine(uiManager.PlayOutroSacribarFull());
     }
 
     private IEnumerator BossAppearSequence()
@@ -213,7 +224,7 @@ public class GameManager : MonoBehaviour
         {
             if(enemyManager.enemiesPeaceful)
             {
-                StartCoroutine(uiManager.PlaySelfSacrifice());
+                StartCoroutine(uiManager.PlayOutroSelfSacrifice());
             }
             else
             {

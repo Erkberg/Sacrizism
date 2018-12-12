@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     public const int amountOfEnemyGroups = 48;
     private const float minGroupDistance = 6.66f;
+    private const float minDistanceToPlayerSpawn = 10f;
 
     public Transform enemiesHolder;
     public Transform enemyGroupPrefab;
@@ -78,7 +79,7 @@ public class EnemyManager : MonoBehaviour
         bool positionIsOkay = true;
 
         // keep area around player spawn clean
-        if(Vector3.Distance(Vector3.zero, position) < 12f)
+        if(Vector3.Distance(Vector3.zero, position) < minDistanceToPlayerSpawn)
         {
             positionIsOkay = false;
         }
