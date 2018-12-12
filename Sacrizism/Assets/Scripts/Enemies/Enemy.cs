@@ -28,7 +28,10 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         player = GameManager.instance.player;
-        moveSpeed *= GameManager.instance.GetSmallRandomizer();
+        float random = GameManager.instance.GetSmallRandomizer();
+        moveSpeed *= random;
+        animator.speed *= random;
+        shadowAnimator.speed *= random;
 
         OnAwake();
     }
