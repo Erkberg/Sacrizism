@@ -6,6 +6,7 @@ public class ParticlesManager : MonoBehaviour
 {
     public Transform healParticlePrefab;
     public Transform deathParticlePrefab;
+    public Transform bossHurtParticlePrefab;
 
     public Transform[] bloodPrefabs;
 
@@ -24,6 +25,11 @@ public class ParticlesManager : MonoBehaviour
     {
         Instantiate(deathParticlePrefab, atPosition, Quaternion.identity);
         SpawnBloodAtPosition(atPosition);
+    }
+
+    public void SpawnBossHurtParticle(Vector3 atPosition)
+    {
+        Instantiate(bossHurtParticlePrefab, atPosition, Quaternion.identity);
     }
 
     public void SpawnBloodAtPosition(Vector3 position)

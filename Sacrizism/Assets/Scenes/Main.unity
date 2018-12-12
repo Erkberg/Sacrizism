@@ -5554,6 +5554,48 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &263280531
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e061b988ce5e0d24bb5589854a660d8c, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &276761440
 GameObject:
   m_ObjectHideFlags: 0
@@ -7434,6 +7476,8 @@ MonoBehaviour:
   healParticlePrefab: {fileID: 4331152645011922, guid: 299c0a1f611fe9e44964e62681a078f0,
     type: 2}
   deathParticlePrefab: {fileID: 4331152645011922, guid: f853219ff0c2d1f4f92cb4cd02968f81,
+    type: 2}
+  bossHurtParticlePrefab: {fileID: 4387897112434254, guid: e061b988ce5e0d24bb5589854a660d8c,
     type: 2}
   bloodPrefabs:
   - {fileID: 4245609665929242, guid: 0631f9045000a044f8511ecb8501f883, type: 2}

@@ -27,6 +27,7 @@ public class PlayerBullet : Bullet
         if (collision.CompareTag(Tags.BossEyesTag))
         {
             collision.GetComponent<BossEyes>().TakeDamage(damage);
+            GameManager.instance.particlesManager.SpawnBossHurtParticle(transform.position);
 
             Destroy();
 
