@@ -100,6 +100,7 @@ public class UIManager : MonoBehaviour
     public void SetSacriBarFillAmount(float amount)
     {
         sacriBarFill.fillAmount = amount;
+        sacriBarFill.color = new Color(1f - amount, amount, 0f, 0.666f);
     }
 
     public void OnPowerUpPickedUp(string text)
