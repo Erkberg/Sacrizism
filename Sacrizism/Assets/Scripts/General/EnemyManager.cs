@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public const int amountOfEnemyGroups = 48;
-    private const float minGroupDistance = 6.66f;
-    private const float minDistanceToPlayerSpawn = 10f;
+    public int amountOfEnemyGroups = 48;
+    private float minGroupDistance = 6.66f;
+    private float minDistanceToPlayerSpawn = 10f;
 
     public Transform enemiesHolder;
     public Transform enemyGroupPrefab;
@@ -116,5 +116,24 @@ public class EnemyManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void OnPacifistEnding()
+    {
+        amountOfEnemyGroups = 64;
+        minGroupDistance = 5f;
+        minDistanceToPlayerSpawn = 0f;
+
+        CreateEnemies();
+
+        foreach (HPBar hpBar in enemiesHolder.GetComponentsInChildren<HPBar>())
+        {
+            hpBar.gameObject.SetActive(false);
+        }
+
+        foreach(Transform enemyGroup in enemyGroups)
+        {
+            enemyGroup.GetComponent<EnemyGroup>().SetDancing();
+        }
     }
 }

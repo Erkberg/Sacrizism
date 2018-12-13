@@ -8,7 +8,10 @@ public class ParticlesManager : MonoBehaviour
     public Transform deathParticlePrefab;
     public Transform bossHurtParticlePrefab;
 
+    public Transform bloodHolder;
     public Transform[] bloodPrefabs;
+
+    public Transform fireworksParticlePrefab;
 
     public void SpawnHealParticle(Transform atTransform)
     {
@@ -37,7 +40,26 @@ public class ParticlesManager : MonoBehaviour
         if(bloodPrefabs != null && bloodPrefabs.Length > 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-            Instantiate(bloodPrefabs[Random.Range(0, bloodPrefabs.Length)], position, rotation);
+            Instantiate(bloodPrefabs[Random.Range(0, bloodPrefabs.Length)], position, rotation, bloodHolder);
+        }
+    }
+
+    public IEnumerator FireworksSequence()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+
+        while(true)
+        {
+            Instantiate(fireworksParticlePrefab, GameManager.instance.player.position + new Vector3(Random.Range(-10f, 10f), Random.Range(-6f, 6f), 0f), Quaternion.identity);
+            yield return delay;
+        }
+    }
+
+    public void ClearBlood()
+    {
+        foreach(Transform blood in bloodHolder)
+        {
+            Destroy(blood.gameObject);
         }
     }
 }

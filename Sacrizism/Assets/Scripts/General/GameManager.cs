@@ -21,8 +21,10 @@ public class GameManager : MonoBehaviour
     public Transform player;
     public PlayerPowerUps playerPowerUps;
     public Transform bossCollidersPrefab;
+    private Transform bossColliders;
     public Transform bossPrefab;
     private Transform boss;
+    public Transform lavaHolder;
 
     public Transform powerUpPrefab;
 
@@ -114,6 +116,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if(gameState == GameState.Pacifist)
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
+            }
+        }
+
         WantedCheat();
         // TODO: Remove before final build!!!
         Cheats();
@@ -136,8 +146,10 @@ public class GameManager : MonoBehaviour
     {
         SetPlayerActive(false);
         gameState = GameState.Sequence;
+        particlesManager.ClearBlood();
         yield return StartCoroutine(boss.GetComponent<BossEnemy>().Die());
-        if(enemyManager.enemiesPeaceful)
+        Destroy(boss.gameObject);
+        if (enemyManager.enemiesPeaceful)
         {
             StartCoroutine(uiManager.PlayOutroPacifist());
         }
@@ -173,7 +185,7 @@ public class GameManager : MonoBehaviour
         }
 
         Vector3 playerPosition = player.position;
-        Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
+        bossColliders = Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
 
         SetPlayerActive(false);
 
@@ -226,8 +238,8 @@ public class GameManager : MonoBehaviour
         boss.GetComponent<BossEnemy>().bossEyes.StartLoop();
 
         if(enemyManager.enemiesPeaceful)
-        {
-            StartCoroutine(TruePacifistSequence());
+        {            
+            StartCoroutine(TruePacifistSequence());            
         }
     }
 
@@ -259,6 +271,7 @@ public class GameManager : MonoBehaviour
                     }
 
                     yield return StartCoroutine(uiManager.PlayOutroTruePacifist());
+                    boss.GetComponent<BossEnemy>().SetDancing();
                 }
             }
         }
@@ -335,10 +348,15 @@ public class GameManager : MonoBehaviour
             currentSacriBarAmount = 1f;
             uiManager.tutorial.SetActive(false);
 
-            for(int i = 0; i < EnemyManager.amountOfEnemyGroups / 2; i++)
+            for(int i = 0; i < enemyManager.amountOfEnemyGroups / 2; i++)
             {
                 playerPowerUps.OnPowerUpPickedUp();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            OnPacifistEnding();
         }
     }
 
@@ -356,6 +374,27 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void OnPacifistEnding()
+    {
+        foreach(Collider2D collider in lavaHolder.GetComponentsInChildren<Collider2D>())
+        {
+            collider.isTrigger = false;
+        }
+
+        player.GetComponentInChildren<HPBar>().gameObject.SetActive(false);
+
+        gameState = GameState.Pacifist;
+        player.GetComponent<PlayerMovement>().movementEnabled = true;
+        player.GetComponent<PlayerCombat>().shootingEnabled = false;
+        enemyManager.OnPacifistEnding();
+        StartCoroutine(uiManager.ShowRestartDelayed());
+        StartCoroutine(uiManager.DiscoSequence());
+        StartCoroutine(particlesManager.FireworksSequence());
+
+        if(bossColliders) Destroy(bossColliders.gameObject);
+        cameraMovement.isFollowing = true;
+    }
 }
 
 public enum GameState
@@ -364,5 +403,6 @@ public enum GameState
     Level,
     Boss,
     Outro,
-    Sequence
+    Sequence,
+    Pacifist
 }

@@ -155,6 +155,12 @@ public class Enemy : MonoBehaviour
     {
         rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
+
+    public void SetDancing()
+    {
+        animator.SetTrigger("Dance");
+        shadowAnimator.SetTrigger("Dance");
+    }
 }
 
 public enum EnemyType

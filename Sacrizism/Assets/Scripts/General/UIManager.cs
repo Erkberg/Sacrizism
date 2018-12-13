@@ -12,6 +12,11 @@ public class UIManager : MonoBehaviour
 
     public GameObject tutorial;
     public GameObject bossRedX;
+    public GameObject restartText;
+    public GameObject sacribarHolder;
+
+    public Image discoOverlay;
+    public Color[] discoOverlayColors;
 
     public GameObject blackBackground;
     public UIHolder introHolder;
@@ -198,7 +203,8 @@ public class UIManager : MonoBehaviour
         yield return StartCoroutine(bossOutroPacifistHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         bossOutroPacifistHolder.gameObject.SetActive(false);
-        StartCoroutine(PlayCredits());
+        blackBackground.SetActive(false);
+        GameManager.instance.OnPacifistEnding();
     }
 
     public IEnumerator PlayTruePacifistMidtro1()
@@ -229,7 +235,8 @@ public class UIManager : MonoBehaviour
         yield return StartCoroutine(bossOutroTruePacifistHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         bossOutroTruePacifistHolder.gameObject.SetActive(false);
-        StartCoroutine(PlayCredits());
+        blackBackground.SetActive(false);
+        GameManager.instance.OnPacifistEnding();
     }
 
     public IEnumerator PlayOutroSelfSacrifice()
@@ -285,5 +292,32 @@ public class UIManager : MonoBehaviour
     public void OnClickRestartBossButton()
     {
         GameManager.instance.RestartGame(true);
+    }
+
+    public IEnumerator ShowRestartDelayed()
+    {
+        yield return new WaitForSeconds(10f);
+        restartText.SetActive(true);
+    }
+
+    public IEnumerator DiscoSequence()
+    {
+        sacribarHolder.SetActive(false);
+        WaitForSeconds discoDelay = new WaitForSeconds(0.5f);
+        discoOverlay.gameObject.SetActive(true);
+        int previousIndex = 0;
+        int newIndex = 0;
+
+        while(true)
+        {
+            while(newIndex == previousIndex)
+            {
+                newIndex = Random.Range(0, discoOverlayColors.Length);
+            }
+
+            previousIndex = newIndex;
+            discoOverlay.color = discoOverlayColors[newIndex];
+            yield return discoDelay;
+        }
     }
 }

@@ -155,6 +155,14 @@ public class EnemyGroup : MonoBehaviour
             }
         }
     }
+
+    public void SetDancing()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.SetDancing();
+        }
+    }
 }
 
 public enum EnemyGroupType
