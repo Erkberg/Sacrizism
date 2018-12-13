@@ -40,7 +40,7 @@ public class UIHolder : MonoBehaviour
                     skipToNextStep = false;
                     break;
                 }
-                waitTimePassed += Time.deltaTime;
+                waitTimePassed += Time.unscaledDeltaTime;
                 yield return null;
             }
         }

@@ -9197,7 +9197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414d3de830ffc1c42a4c1b1d0c7202ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionalWaitTime: 2
+  additionalWaitTime: 1
   cancelWaitTime: 0
 --- !u!222 &1189243090
 CanvasRenderer:
@@ -11258,7 +11258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414d3de830ffc1c42a4c1b1d0c7202ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionalWaitTime: 2
+  additionalWaitTime: 1
   cancelWaitTime: 0
 --- !u!222 &1832710086
 CanvasRenderer:
@@ -11657,8 +11657,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elements:
   - {fileID: 1189243086}
+  - {fileID: 1973888360}
   - {fileID: 2107111614}
-  - {fileID: 822613399}
   - {fileID: 822613399}
 --- !u!1 &1921837277
 GameObject:
@@ -11991,7 +11991,7 @@ MonoBehaviour:
 
     All these annual sacrifices, they serve no purpose other than pleasing me.
 
-    But I am the king and I shouldn''t be lead by such selfish reasons.
+    But I am the king and I shouldn''t be lead by such selfish reasons!
 
     All these years, all these dead demons... I see my mistakes now.
 
@@ -12964,7 +12964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414d3de830ffc1c42a4c1b1d0c7202ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionalWaitTime: 2
+  additionalWaitTime: 1
   cancelWaitTime: 0
 --- !u!222 &2120811687
 CanvasRenderer:

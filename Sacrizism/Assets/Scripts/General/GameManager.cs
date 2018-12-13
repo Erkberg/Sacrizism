@@ -224,6 +224,44 @@ public class GameManager : MonoBehaviour
         SetPlayerActive(true);
 
         boss.GetComponent<BossEnemy>().bossEyes.StartLoop();
+
+        if(enemyManager.enemiesPeaceful)
+        {
+            StartCoroutine(TruePacifistSequence());
+        }
+    }
+
+    private IEnumerator TruePacifistSequence()
+    {
+        float stageTime = 20f;
+
+        yield return new WaitForSeconds(stageTime);
+
+        if(truePacifist)
+        {
+            yield return StartCoroutine(uiManager.PlayTruePacifistMidtro1());
+
+            yield return new WaitForSeconds(stageTime);
+
+            if (truePacifist)
+            {
+                yield return StartCoroutine(uiManager.PlayTruePacifistMidtro2());
+
+                yield return new WaitForSeconds(stageTime);
+
+                if (truePacifist)
+                {
+                    boss.GetComponentInChildren<BossEyes>().StopAllCoroutines();
+
+                    foreach (Bullet bullet in FindObjectsOfType<Bullet>())
+                    {
+                        Destroy(bullet.gameObject);
+                    }
+
+                    yield return StartCoroutine(uiManager.PlayOutroTruePacifist());
+                }
+            }
+        }
     }
 
     private void SetPlayerActive(bool active)
@@ -259,7 +297,11 @@ public class GameManager : MonoBehaviour
     public void OnEnemyKilled(int level)
     {
         currentSacriBarAmount += level + 1;
-        uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+
+        if(gameState == GameState.Level)
+        {
+            uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+        }        
     }
 
     public float GetSmallRandomizer()

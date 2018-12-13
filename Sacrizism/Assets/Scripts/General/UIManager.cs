@@ -201,6 +201,37 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PlayCredits());
     }
 
+    public IEnumerator PlayTruePacifistMidtro1()
+    {
+        blackBackground.SetActive(true);
+        Time.timeScale = 0f;
+        yield return StartCoroutine(bossMidtroTruePacifistHolder1.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossMidtroTruePacifistHolder1.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public IEnumerator PlayTruePacifistMidtro2()
+    {
+        blackBackground.SetActive(true);
+        Time.timeScale = 0f;
+        yield return StartCoroutine(bossMidtroTruePacifistHolder2.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossMidtroTruePacifistHolder2.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public IEnumerator PlayOutroTruePacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossOutroTruePacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossOutroTruePacifistHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
     public IEnumerator PlayOutroSelfSacrifice()
     {
         yield return new WaitForSeconds(2f);
