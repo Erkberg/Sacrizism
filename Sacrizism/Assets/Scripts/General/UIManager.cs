@@ -21,7 +21,11 @@ public class UIManager : MonoBehaviour
     public UIHolder outroRegularHolder;
     public UIHolder creditsHolder;
     public UIHolder selfSacrificeHolder;
-    public UIHolder pacifistHolder;
+    public UIHolder bossIntroPacifistHolder;
+    public UIHolder bossOutroPacifistHolder;
+    public UIHolder bossMidtroTruePacifistHolder1;
+    public UIHolder bossMidtroTruePacifistHolder2;
+    public UIHolder bossOutroTruePacifistHolder;
     public UIHolder fullSacribarHolder;
 
     public Text restartFromBeginningText;
@@ -188,6 +192,15 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PlayCredits());
     }
 
+    public IEnumerator PlayOutroPacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossOutroPacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossOutroPacifistHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
     public IEnumerator PlayOutroSelfSacrifice()
     {
         yield return new WaitForSeconds(2f);
@@ -213,6 +226,15 @@ public class UIManager : MonoBehaviour
         yield return StartCoroutine(bossIntroHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         bossIntroHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+    }
+
+    public IEnumerator PlayBossIntroPacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossIntroPacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossIntroPacifistHolder.gameObject.SetActive(false);
         blackBackground.SetActive(false);
     }
 

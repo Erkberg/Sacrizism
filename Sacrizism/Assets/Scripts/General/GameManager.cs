@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private const int bossHealthGainPerPowerup = 40;
     private float bossMaxHealth;
     private float bossCurrentHealth;
+    private bool truePacifist = true;
 
     private readonly Vector3 bossOffset = new Vector3(0f, 4.67f, 0f);
     private readonly Vector3 bossCameraOffset = new Vector3(0f, 3f, 0f);
@@ -120,6 +121,7 @@ public class GameManager : MonoBehaviour
 
     public void OnBossTakeDamage(float amount)
     {
+        truePacifist = false;
         bossCurrentHealth -= amount;
 
         uiManager.SetSacriBarFillAmount(1f - (bossCurrentHealth / bossMaxHealth));
@@ -135,7 +137,14 @@ public class GameManager : MonoBehaviour
         SetPlayerActive(false);
         gameState = GameState.Sequence;
         yield return StartCoroutine(boss.GetComponent<BossEnemy>().Die());
-        StartCoroutine(uiManager.PlayOutroRegular());        
+        if(enemyManager.enemiesPeaceful)
+        {
+            StartCoroutine(uiManager.PlayOutroPacifist());
+        }
+        else
+        {
+            StartCoroutine(uiManager.PlayOutroRegular());
+        }
     }
 
     private void OnSacriBarEmpty()
@@ -174,7 +183,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            yield return StartCoroutine(uiManager.PlayBossIntro());
+            if (enemyManager.enemiesPeaceful)
+            {
+                yield return StartCoroutine(uiManager.PlayBossIntroPacifist());
+            }
+            else
+            {
+                yield return StartCoroutine(uiManager.PlayBossIntro());
+            }            
         }
         uiManager.SetSacriBarFillAmount(0f);
         cameraMovement.isFollowing = false;
