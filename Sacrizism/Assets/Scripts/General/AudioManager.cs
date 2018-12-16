@@ -14,10 +14,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip wamsSound;
     public AudioClip wamsShortSound;
+    public AudioClip bossLaughSound;
+    public AudioClip bossDieSound;
 
     public AudioClip[] playerHurtSounds;
     public AudioClip[] enemyHurtSounds;
     public AudioClip[] kachuHurtSounds;
+    public AudioClip[] bossHurtSounds;
 
     public void PlayMusic()
     {
@@ -42,6 +45,16 @@ public class AudioManager : MonoBehaviour
     public void PlayBossArrivalSound()
     {
         audioSourceSounds.PlayOneShot(bossArrivalSound);
+    }
+
+    public void PlayBossLaughSound()
+    {
+        audioSourceSounds.PlayOneShot(bossLaughSound);
+    }
+
+    public void PlayBossDieSound()
+    {
+        audioSourceSounds.PlayOneShot(bossDieSound);
     }
 
     public void PlayShootSound()
@@ -75,6 +88,14 @@ public class AudioManager : MonoBehaviour
         if (enemyHurtSounds != null && enemyHurtSounds.Length > 0)
         {
             audioSourceSounds.PlayOneShot(enemyHurtSounds[Random.Range(0, enemyHurtSounds.Length)]);
+        }
+    }
+
+    public void PlayBossHurtSound()
+    {
+        if (bossHurtSounds != null && bossHurtSounds.Length > 0)
+        {
+            audioSourceSounds.PlayOneShot(bossHurtSounds[Random.Range(0, bossHurtSounds.Length)]);
         }
     }
 }

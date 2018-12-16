@@ -140,6 +140,10 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(BossDeathSequence());
         }
+        else
+        {
+            audioManager.PlayBossHurtSound();
+        }
     }
 
     private IEnumerator BossDeathSequence()
@@ -147,6 +151,7 @@ public class GameManager : MonoBehaviour
         SetPlayerActive(false);
         gameState = GameState.Sequence;
         particlesManager.ClearBlood();
+        audioManager.PlayBossDieSound();
         yield return StartCoroutine(boss.GetComponent<BossEnemy>().Die());
         Destroy(boss.gameObject);
         if (enemyManager.enemiesPeaceful)
@@ -301,6 +306,7 @@ public class GameManager : MonoBehaviour
 
         if (gameState == GameState.Boss)
         {
+            audioManager.PlayBossLaughSound();
             StartCoroutine(uiManager.PlayBossDeath());
         }
 

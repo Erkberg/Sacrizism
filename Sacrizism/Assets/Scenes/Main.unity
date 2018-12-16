@@ -10584,6 +10584,8 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: 1ebd3d22903aca343a0b6bbfca5fe8fa, type: 3}
   wamsSound: {fileID: 8300000, guid: be45465d5738510498550e02d7b258cf, type: 3}
   wamsShortSound: {fileID: 8300000, guid: 0dd5ccc48c6a30f41a00195843020d8c, type: 3}
+  bossLaughSound: {fileID: 8300000, guid: a50a9e204f0ab27419647d0fcb75b84b, type: 3}
+  bossDieSound: {fileID: 8300000, guid: 64808796932ea4e45ad18f64abcfa5dc, type: 3}
   playerHurtSounds:
   - {fileID: 8300000, guid: 57698db9822ab0b43909a59f18df6561, type: 3}
   - {fileID: 8300000, guid: e198d345a7610294d9100db79db740d6, type: 3}
@@ -10604,6 +10606,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b6bc5baa77c45c041bd0b95fa7c1a936, type: 3}
   - {fileID: 8300000, guid: 8e50a076a5763a44cb41f67cea3549af, type: 3}
   - {fileID: 8300000, guid: d100011f6e57a2f4bb70e437d18f32f8, type: 3}
+  bossHurtSounds:
+  - {fileID: 8300000, guid: 89b9be6eb4b7d284e8549f5fc1b48880, type: 3}
+  - {fileID: 8300000, guid: de4eba54924641846b82bd6f2297f8bb, type: 3}
+  - {fileID: 8300000, guid: fc7224035d91b8245a94faf27ac01963, type: 3}
+  - {fileID: 8300000, guid: 74200f32baa3ae24483763e976841f0c, type: 3}
+  - {fileID: 8300000, guid: 3862adb0868899c418fffe28e3130091, type: 3}
 --- !u!1 &1604409133
 GameObject:
   m_ObjectHideFlags: 0
