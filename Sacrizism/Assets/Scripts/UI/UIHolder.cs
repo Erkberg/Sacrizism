@@ -11,10 +11,11 @@ public class UIHolder : MonoBehaviour
 
     private int currentIndex = 0;
     private bool skipToNextStep = false;
+    private bool isPlaying = false;
 
     private void Update()
     {
-        if(Input.anyKeyDown)
+        if(isPlaying && Input.anyKeyDown)
         {
             skipToNextStep = true;
         }
@@ -22,6 +23,7 @@ public class UIHolder : MonoBehaviour
 
     public IEnumerator PlayBlock()
     {
+        isPlaying = true;
         float nextWaitTime = GetNextElementWaitTime();
         float waitTimePassed = 0f;
 
@@ -38,7 +40,7 @@ public class UIHolder : MonoBehaviour
                     skipToNextStep = false;
                     break;
                 }
-                waitTimePassed += Time.deltaTime;
+                waitTimePassed += Time.unscaledDeltaTime;
                 yield return null;
             }
         }
@@ -58,6 +60,19 @@ public class UIHolder : MonoBehaviour
                     waitTime *= nextText.text.Length;
                 }
 
+                UIElement uiElement = elements[currentIndex].GetComponent<UIElement>();
+
+                if(uiElement)
+                {
+                    if(uiElement.cancelWaitTime)
+                    {
+                        waitTime = waitTimeBase;
+                    }
+                    else
+                    {
+                        waitTime += uiElement.additionalWaitTime;
+                    }
+                }
             }
             else
             {

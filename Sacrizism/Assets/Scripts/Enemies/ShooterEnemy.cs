@@ -17,7 +17,12 @@ public class ShooterEnemy : Enemy
 
     protected override void OnAwake()
     {
-        bulletsHolder = GameObject.FindGameObjectWithTag(Tags.BulletsHolderTag).transform;
+        GameObject bulletsHolderObject = GameObject.FindGameObjectWithTag(Tags.BulletsHolderTag);
+
+        if(bulletsHolderObject)
+        {
+            bulletsHolder = bulletsHolderObject.transform;
+        }
     }
 
     protected override void OnFixedUpdate()

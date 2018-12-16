@@ -28,7 +28,10 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         player = GameManager.instance.player;
-        moveSpeed *= GameManager.instance.GetSmallRandomizer();
+        float random = GameManager.instance.GetSmallRandomizer();
+        moveSpeed *= random;
+        animator.speed *= random;
+        shadowAnimator.speed *= random;
 
         OnAwake();
     }
@@ -146,6 +149,17 @@ public class Enemy : MonoBehaviour
 
         animator.SetBool(AnimationBools.MovingBool, moving);
         shadowAnimator.SetBool(AnimationBools.MovingBool, moving);
+    }
+
+    public void RemoveRigidbodyConstraints()
+    {
+        rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void SetDancing()
+    {
+        animator.SetTrigger("Dance");
+        shadowAnimator.SetTrigger("Dance");
     }
 }
 

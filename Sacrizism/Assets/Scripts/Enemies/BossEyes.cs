@@ -10,7 +10,6 @@ public class BossEyes : MonoBehaviour
     public Transform bulletsHolder;
     public Transform bulletPrefab;
 
-    private int previousSequenceID = 0;
     private readonly Vector3 standardDirection = new Vector3(0f, -1f, 0f);
 
     private void Awake()
@@ -18,7 +17,7 @@ public class BossEyes : MonoBehaviour
         bulletsHolder = GameObject.FindGameObjectWithTag(Tags.BulletsHolderTag).transform;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         GameManager.instance.OnBossTakeDamage(amount);
     }

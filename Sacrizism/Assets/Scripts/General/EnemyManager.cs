@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public const int amountOfEnemyGroups = 32;
-    private const float minGroupDistance = 6f;
+    public int amountOfEnemyGroups = 48;
+    private float minGroupDistance = 6.66f;
+    private float minDistanceToPlayerSpawn = 10f;
 
     public Transform enemiesHolder;
     public Transform enemyGroupPrefab;
@@ -16,6 +17,21 @@ public class EnemyManager : MonoBehaviour
 
     private List<Transform> enemyGroups;
 
+    public bool enemiesPeaceful = true;
+
+    public void OnAttackedEnemy()
+    {
+        if(enemiesPeaceful)
+        {
+            enemiesPeaceful = false;
+
+            for (int i = 0; i < enemyGroups.Count; i++)
+            {
+                enemyGroups[i].GetComponent<EnemyGroup>().RemoveConstraints();
+            }
+        }
+    }
+
     public void CreateEnemies()
     {
         enemyGroups = new List<Transform>();
@@ -24,17 +40,24 @@ public class EnemyManager : MonoBehaviour
         {
             Vector3 position = Vector3.zero;
             int counter = 0;
+            bool noMoreSpace = false;
 
             while(!IsPositionOkay(position))
             {
                 position = GameManager.instance.worldManager.GetRandomWorldPosition();
 
                 counter++;
-                if(counter > 10)
+                if(counter > 32)
                 {
-                    Debug.Log("no more space in hell...");
+                    Debug.Log("no more space in hell... at " + i);
+                    noMoreSpace = true;
                     break;
                 }
+            }
+
+            if(noMoreSpace)
+            {
+                break;
             }
 
             Transform enemyGroup = Instantiate(enemyGroupPrefab, position, Quaternion.identity, enemiesHolder);
@@ -47,7 +70,7 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < enemyGroups.Count; i++)
         {
-            Destroy(enemyGroups[i].gameObject);
+            enemyGroups[i].GetComponent<EnemyGroup>().DestroyGroup();
         }
     }
 
@@ -56,7 +79,7 @@ public class EnemyManager : MonoBehaviour
         bool positionIsOkay = true;
 
         // keep area around player spawn clean
-        if(Vector3.Distance(Vector3.zero, position) < 12f)
+        if(Vector3.Distance(Vector3.zero, position) < minDistanceToPlayerSpawn)
         {
             positionIsOkay = false;
         }
@@ -93,5 +116,24 @@ public class EnemyManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void OnPacifistEnding()
+    {
+        amountOfEnemyGroups = 64;
+        minGroupDistance = 5f;
+        minDistanceToPlayerSpawn = 0f;
+
+        CreateEnemies();
+
+        foreach (HPBar hpBar in enemiesHolder.GetComponentsInChildren<HPBar>())
+        {
+            hpBar.gameObject.SetActive(false);
+        }
+
+        foreach(Transform enemyGroup in enemyGroups)
+        {
+            enemyGroup.GetComponent<EnemyGroup>().SetDancing();
+        }
     }
 }

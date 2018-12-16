@@ -8,7 +8,7 @@ public class HealerEnemy : Enemy
     private const float minDistanceToTarget = 2f;
 
     private Transform currentTarget;
-    private int healAmount = 1;
+    private float healAmount = 1f;
 
     public float reloadTime = 2f;
     private float reloadTimePassed = 0f;

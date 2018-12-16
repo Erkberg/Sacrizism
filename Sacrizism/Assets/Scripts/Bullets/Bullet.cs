@@ -5,24 +5,54 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float moveSpeed = 8f;
-    public int damage = 1;
+    public float damage = 1;
     public int pierce = 0;
+    public float wobbleFactor = 16f;
+
+    private bool isWobbling = false;
+    private Vector2 initialDirection;
+    private Vector2 wobbleDirection;
+    private Vector3 previousWobble = Vector3.zero;
+    private float lifeTime = 0f;
 
     private IEnumerator Start()
     {
         if(GameManager.instance.gameState == GameState.Level)
         {
             yield return new WaitForSeconds(0.2f);
-            GetComponent<SpriteRenderer>().sortingOrder = -1;
+            GetComponent<SpriteRenderer>().sortingOrder = -9;
         }
+    }
+
+    private void Update()
+    {
+        if(isWobbling)
+        {
+            Wobble();
+        }
+    }
+
+    private void Wobble()
+    {
+        Vector3 currentWobble = wobbleDirection * lifeTime * moveSpeed * Mathf.Sin(lifeTime * wobbleFactor) * Time.deltaTime;
+        transform.position = transform.position + currentWobble - previousWobble;
+        previousWobble = currentWobble;
+        lifeTime += Time.deltaTime;
+    }
+
+    public void SetWobbling(bool wobbling)
+    {
+        isWobbling = wobbling;
     }
 
     public void SetDirection(Vector2 direction)
     {
-        GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
+        initialDirection = direction * moveSpeed;
+        wobbleDirection = Vector2.Perpendicular(initialDirection);
+        GetComponent<Rigidbody2D>().velocity = initialDirection;
     }
 
-    public void AddDamage(int bonusDamage)
+    public void AddDamage(float bonusDamage)
     {
         damage += bonusDamage;
     }
@@ -38,7 +68,7 @@ public class Bullet : MonoBehaviour
         transform.localScale = new Vector3(size, size, 1f);
     }
 
-    public void SetDamage(int newDamage)
+    public void SetDamage(float newDamage)
     {
         damage = newDamage;
     }

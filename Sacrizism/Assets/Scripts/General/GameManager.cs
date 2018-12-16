@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static bool introPlayed = false;
     public static bool restartFromBoss = false;
 
     public GameState gameState = GameState.Intro;
@@ -20,19 +21,22 @@ public class GameManager : MonoBehaviour
     public Transform player;
     public PlayerPowerUps playerPowerUps;
     public Transform bossCollidersPrefab;
+    private Transform bossColliders;
     public Transform bossPrefab;
     private Transform boss;
+    public Transform lavaHolder;
 
     public Transform powerUpPrefab;
 
     private const float sacriBarMax = 100f;
-    private const float sacriBarDecline = 0.75f;
+    private const float sacriBarDecline = 0.666f;
     private float currentSacriBarAmount;
 
     private const int bossBaseHealth = 100;
     private const int bossHealthGainPerPowerup = 40;
-    private int bossMaxHealth;
-    private int bossCurrentHealth;
+    private float bossMaxHealth;
+    private float bossCurrentHealth;
+    private bool truePacifist = true;
 
     private readonly Vector3 bossOffset = new Vector3(0f, 4.67f, 0f);
     private readonly Vector3 bossCameraOffset = new Vector3(0f, 3f, 0f);
@@ -40,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Cursor.visible = false;
         Init();
     }
 
@@ -64,29 +69,58 @@ public class GameManager : MonoBehaviour
             enemyManager.CreateEnemies();
             SetPlayerActive(false);
 
-            StartCoroutine(uiManager.PlayIntro());
+            if(introPlayed)
+            {
+                OnIntroEnded();
+            }
+            else
+            {
+                introPlayed = true;
+                StartCoroutine(uiManager.PlayIntro());
+            }            
         }
     }
 
     public void OnIntroEnded()
     {
-        gameState = GameState.Level;
-        uiManager.DisplayTutorial();
+        gameState = GameState.Level;        
         SetPlayerActive(true);
         audioManager.PlayMusic();
         audioManager.PlayAtmo();
+
+        if(introPlayed)
+        {
+            uiManager.DisplayTutorial(4f);
+        }
+        else
+        {
+            uiManager.DisplayTutorial(8f);
+        }
     }
 
     private void Update()
     {
         if(gameState == GameState.Level)
         {
-            currentSacriBarAmount -= sacriBarDecline * (1f + playerPowerUps.powerUpsCollected * 0.05f) * Time.deltaTime;
+            currentSacriBarAmount -= sacriBarDecline * (1f + playerPowerUps.powerUpsCollected * 0.055f) * Time.deltaTime;
             uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
 
             if (currentSacriBarAmount <= 0f)
             {
                 OnSacriBarEmpty();
+            }
+
+            if(currentSacriBarAmount >= sacriBarMax)
+            {
+                OnSacriBarFull();
+            }
+        }
+
+        if(gameState == GameState.Pacifist)
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
             }
         }
 
@@ -95,11 +129,12 @@ public class GameManager : MonoBehaviour
         Cheats();
     }
 
-    public void OnBossTakeDamage(int amount)
+    public void OnBossTakeDamage(float amount)
     {
+        truePacifist = false;
         bossCurrentHealth -= amount;
 
-        uiManager.SetSacriBarFillAmount(1f - ((float) bossCurrentHealth / bossMaxHealth));
+        uiManager.SetSacriBarFillAmount(1f - (bossCurrentHealth / bossMaxHealth));
 
         if(bossCurrentHealth <= 0)
         {
@@ -111,17 +146,30 @@ public class GameManager : MonoBehaviour
     {
         SetPlayerActive(false);
         gameState = GameState.Sequence;
+        particlesManager.ClearBlood();
         yield return StartCoroutine(boss.GetComponent<BossEnemy>().Die());
-        StartCoroutine(uiManager.PlayOutroRegular());        
+        Destroy(boss.gameObject);
+        if (enemyManager.enemiesPeaceful)
+        {
+            StartCoroutine(uiManager.PlayOutroPacifist());
+        }
+        else
+        {
+            StartCoroutine(uiManager.PlayOutroRegular());
+        }
     }
 
     private void OnSacriBarEmpty()
     {
-        gameState = GameState.Boss;
-        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsCollected;
-        bossCurrentHealth = bossMaxHealth;
+        gameState = GameState.Boss;        
         uiManager.SetSacriBarFillAmount(0f);
         StartCoroutine(BossAppearSequence());
+    }
+
+    private void OnSacriBarFull()
+    {
+        gameState = GameState.Sequence;
+        StartCoroutine(uiManager.PlayOutroSacribarFull());
     }
 
     private IEnumerator BossAppearSequence()
@@ -137,7 +185,7 @@ public class GameManager : MonoBehaviour
         }
 
         Vector3 playerPosition = player.position;
-        Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
+        bossColliders = Instantiate(bossCollidersPrefab, playerPosition + bossCameraOffset, Quaternion.identity);
 
         SetPlayerActive(false);
 
@@ -147,13 +195,23 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            yield return StartCoroutine(uiManager.PlayBossIntro());
+            if (enemyManager.enemiesPeaceful)
+            {
+                yield return StartCoroutine(uiManager.PlayBossIntroPacifist());
+            }
+            else
+            {
+                yield return StartCoroutine(uiManager.PlayBossIntro());
+            }            
         }
-
+        uiManager.SetSacriBarFillAmount(0f);
         cameraMovement.isFollowing = false;
         cameraMovement.MoveToTargetPosition(playerPosition + bossCameraOffset);
 
         yield return new WaitForSeconds(1f);
+        bossMaxHealth = bossBaseHealth + bossHealthGainPerPowerup * playerPowerUps.powerUpsForBossHealthCollected;
+        bossCurrentHealth = bossMaxHealth;
+
         audioManager.PlayBossArrivalSound();
         boss = Instantiate(bossPrefab, playerPosition + bossOffset * 3f, Quaternion.identity);
 
@@ -178,6 +236,45 @@ public class GameManager : MonoBehaviour
         SetPlayerActive(true);
 
         boss.GetComponent<BossEnemy>().bossEyes.StartLoop();
+
+        if(enemyManager.enemiesPeaceful)
+        {            
+            StartCoroutine(TruePacifistSequence());            
+        }
+    }
+
+    private IEnumerator TruePacifistSequence()
+    {
+        float stageTime = 20f;
+
+        yield return new WaitForSeconds(stageTime);
+
+        if(truePacifist)
+        {
+            yield return StartCoroutine(uiManager.PlayTruePacifistMidtro1());
+
+            yield return new WaitForSeconds(stageTime);
+
+            if (truePacifist)
+            {
+                yield return StartCoroutine(uiManager.PlayTruePacifistMidtro2());
+
+                yield return new WaitForSeconds(stageTime);
+
+                if (truePacifist)
+                {
+                    boss.GetComponentInChildren<BossEyes>().StopAllCoroutines();
+
+                    foreach (Bullet bullet in FindObjectsOfType<Bullet>())
+                    {
+                        Destroy(bullet.gameObject);
+                    }
+
+                    yield return StartCoroutine(uiManager.PlayOutroTruePacifist());
+                    boss.GetComponent<BossEnemy>().SetDancing();
+                }
+            }
+        }
     }
 
     private void SetPlayerActive(bool active)
@@ -192,7 +289,14 @@ public class GameManager : MonoBehaviour
 
         if(gameState == GameState.Level)
         {
-            StartCoroutine(uiManager.PlayRegularDeath());
+            if(enemyManager.enemiesPeaceful)
+            {
+                StartCoroutine(uiManager.PlayOutroSelfSacrifice());
+            }
+            else
+            {
+                StartCoroutine(uiManager.PlayRegularDeath());
+            }            
         }
 
         if (gameState == GameState.Boss)
@@ -206,7 +310,11 @@ public class GameManager : MonoBehaviour
     public void OnEnemyKilled(int level)
     {
         currentSacriBarAmount += level + 1;
-        uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+
+        if(gameState == GameState.Level)
+        {
+            uiManager.SetSacriBarFillAmount(currentSacriBarAmount / sacriBarMax);
+        }        
     }
 
     public float GetSmallRandomizer()
@@ -240,10 +348,15 @@ public class GameManager : MonoBehaviour
             currentSacriBarAmount = 1f;
             uiManager.tutorial.SetActive(false);
 
-            for(int i = 0; i < EnemyManager.amountOfEnemyGroups / 2; i++)
+            for(int i = 0; i < enemyManager.amountOfEnemyGroups / 2; i++)
             {
                 playerPowerUps.OnPowerUpPickedUp();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            OnPacifistEnding();
         }
     }
 
@@ -254,8 +367,33 @@ public class GameManager : MonoBehaviour
             restartFromBoss = true;
             playerPowerUps.SavePowerUps();
         }
+        else
+        {
+            restartFromBoss = false;
+        }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnPacifistEnding()
+    {
+        foreach(Collider2D collider in lavaHolder.GetComponentsInChildren<Collider2D>())
+        {
+            collider.isTrigger = false;
+        }
+
+        player.GetComponentInChildren<HPBar>().gameObject.SetActive(false);
+
+        gameState = GameState.Pacifist;
+        player.GetComponent<PlayerMovement>().movementEnabled = true;
+        player.GetComponent<PlayerCombat>().shootingEnabled = false;
+        enemyManager.OnPacifistEnding();
+        StartCoroutine(uiManager.ShowRestartDelayed());
+        StartCoroutine(uiManager.DiscoSequence());
+        StartCoroutine(particlesManager.FireworksSequence());
+
+        if(bossColliders) Destroy(bossColliders.gameObject);
+        cameraMovement.isFollowing = true;
     }
 }
 
@@ -265,5 +403,6 @@ public enum GameState
     Level,
     Boss,
     Outro,
-    Sequence
+    Sequence,
+    Pacifist
 }

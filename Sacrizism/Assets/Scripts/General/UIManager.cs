@@ -12,6 +12,11 @@ public class UIManager : MonoBehaviour
 
     public GameObject tutorial;
     public GameObject bossRedX;
+    public GameObject restartText;
+    public GameObject sacribarHolder;
+
+    public Image discoOverlay;
+    public Color[] discoOverlayColors;
 
     public GameObject blackBackground;
     public UIHolder introHolder;
@@ -20,6 +25,13 @@ public class UIManager : MonoBehaviour
     public UIHolder bossIntroHolder;
     public UIHolder outroRegularHolder;
     public UIHolder creditsHolder;
+    public UIHolder selfSacrificeHolder;
+    public UIHolder bossIntroPacifistHolder;
+    public UIHolder bossOutroPacifistHolder;
+    public UIHolder bossMidtroTruePacifistHolder1;
+    public UIHolder bossMidtroTruePacifistHolder2;
+    public UIHolder bossOutroTruePacifistHolder;
+    public UIHolder fullSacribarHolder;
 
     public Text restartFromBeginningText;
     public Text restartFromBossText;
@@ -97,6 +109,7 @@ public class UIManager : MonoBehaviour
     public void SetSacriBarFillAmount(float amount)
     {
         sacriBarFill.fillAmount = amount;
+        sacriBarFill.color = new Color(1f - amount, amount, 0f, 0.666f);
     }
 
     public void OnPowerUpPickedUp(string text)
@@ -104,6 +117,7 @@ public class UIManager : MonoBehaviour
         StopAllCoroutines();
         powerUp.SetActive(true);
         powerUpText.text = text;
+        tutorial.SetActive(false);
         StartCoroutine(PowerUpSequence());
     }
 
@@ -126,15 +140,15 @@ public class UIManager : MonoBehaviour
         powerUp.SetActive(false);
     }
 
-    public void DisplayTutorial()
+    public void DisplayTutorial(float displayTime)
     {
-        StartCoroutine(TutorialSequence());
+        StartCoroutine(TutorialSequence(displayTime));
     }
 
-    private IEnumerator TutorialSequence()
+    private IEnumerator TutorialSequence(float displayTime)
     {
         tutorial.SetActive(true);
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(displayTime);
         tutorial.SetActive(false);
     }
 
@@ -166,6 +180,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator PlayBossDeath()
     {
+        yield return new WaitForSeconds(1f);
         blackBackground.SetActive(true);
         selectionID = 0;
         SetSelectionColors();
@@ -182,12 +197,82 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PlayCredits());
     }
 
+    public IEnumerator PlayOutroPacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossOutroPacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossOutroPacifistHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        GameManager.instance.OnPacifistEnding();
+    }
+
+    public IEnumerator PlayTruePacifistMidtro1()
+    {
+        blackBackground.SetActive(true);
+        Time.timeScale = 0f;
+        yield return StartCoroutine(bossMidtroTruePacifistHolder1.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossMidtroTruePacifistHolder1.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public IEnumerator PlayTruePacifistMidtro2()
+    {
+        blackBackground.SetActive(true);
+        Time.timeScale = 0f;
+        yield return StartCoroutine(bossMidtroTruePacifistHolder2.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossMidtroTruePacifistHolder2.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public IEnumerator PlayOutroTruePacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossOutroTruePacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossOutroTruePacifistHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+        GameManager.instance.OnPacifistEnding();
+    }
+
+    public IEnumerator PlayOutroSelfSacrifice()
+    {
+        yield return new WaitForSeconds(2f);
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(selfSacrificeHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        selfSacrificeHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
+    public IEnumerator PlayOutroSacribarFull()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(fullSacribarHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        fullSacribarHolder.gameObject.SetActive(false);
+        StartCoroutine(PlayCredits());
+    }
+
     public IEnumerator PlayBossIntro()
     {
         blackBackground.SetActive(true);
         yield return StartCoroutine(bossIntroHolder.PlayBlock());
         yield return new WaitUntil(() => Input.anyKeyDown);
         bossIntroHolder.gameObject.SetActive(false);
+        blackBackground.SetActive(false);
+    }
+
+    public IEnumerator PlayBossIntroPacifist()
+    {
+        blackBackground.SetActive(true);
+        yield return StartCoroutine(bossIntroPacifistHolder.PlayBlock());
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        bossIntroPacifistHolder.gameObject.SetActive(false);
         blackBackground.SetActive(false);
     }
 
@@ -207,5 +292,32 @@ public class UIManager : MonoBehaviour
     public void OnClickRestartBossButton()
     {
         GameManager.instance.RestartGame(true);
+    }
+
+    public IEnumerator ShowRestartDelayed()
+    {
+        yield return new WaitForSeconds(10f);
+        restartText.SetActive(true);
+    }
+
+    public IEnumerator DiscoSequence()
+    {
+        sacribarHolder.SetActive(false);
+        WaitForSeconds discoDelay = new WaitForSeconds(0.5f);
+        discoOverlay.gameObject.SetActive(true);
+        int previousIndex = 0;
+        int newIndex = 0;
+
+        while(true)
+        {
+            while(newIndex == previousIndex)
+            {
+                newIndex = Random.Range(0, discoOverlayColors.Length);
+            }
+
+            previousIndex = newIndex;
+            discoOverlay.color = discoOverlayColors[newIndex];
+            yield return discoDelay;
+        }
     }
 }
