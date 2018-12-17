@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Cursor.visible = false;
         Init();
     }
 
@@ -127,6 +126,12 @@ public class GameManager : MonoBehaviour
         WantedCheat();
         // TODO: Remove before final build!!!
         //Cheats();
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 
     public void OnBossTakeDamage(float amount)
