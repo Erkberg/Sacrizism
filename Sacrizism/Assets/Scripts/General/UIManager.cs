@@ -303,7 +303,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator DiscoSequence()
     {
         sacribarHolder.SetActive(false);
-        WaitForSeconds discoDelay = new WaitForSeconds(0.5f);
+        WaitForSeconds discoDelay = new WaitForSeconds(0.4f);
         discoOverlay.gameObject.SetActive(true);
         int previousIndex = 0;
         int newIndex = 0;

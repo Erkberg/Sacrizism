@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private float currentSacriBarAmount;
 
     private const int bossBaseHealth = 100;
-    private const int bossHealthGainPerPowerup = 40;
+    private const int bossHealthGainPerPowerup = 33;
     private float bossMaxHealth;
     private float bossCurrentHealth;
     private bool truePacifist = true;
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
 
         WantedCheat();
         // TODO: Remove before final build!!!
-        Cheats();
+        //Cheats();
     }
 
     public void OnBossTakeDamage(float amount)

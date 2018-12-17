@@ -49,7 +49,11 @@ public class PlayerPowerUps : MonoBehaviour
 
     public void OnPowerUpPickedUp()
     {
-        if(powerUpsCollected < 3)
+        if(GameManager.instance.gameState == GameState.Pacifist)
+        {
+            PickOncePowerUp();
+        }
+        else if(powerUpsCollected < 3)
         {
             PickOrdinaryPowerUp();
         }

@@ -5464,7 +5464,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.33
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -11477,7 +11477,9 @@ MonoBehaviour:
 
     and the sanity of the demon king.
 
-    He will always be remembered as a hero of demonkind.'
+    He will always be remembered as a hero of demonkind.
+
+    But was his sacrifice really necessary?'
 --- !u!222 &1853099858
 CanvasRenderer:
   m_ObjectHideFlags: 0
